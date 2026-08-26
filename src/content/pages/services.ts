@@ -18,7 +18,7 @@ export const services: readonly Service[] = [
     group: "Cooling Solutions",
     intro:
       "Transport refrigeration and cooling units for trucks, vans and cold chain logistics fleets in Saudi Arabia.",
-    image: "/images/services-cooling-units.webp",
+    image: "/images/single-service/hero-background.png",
     overview:
       "Direct-drive and diesel-powered transport refrigeration specified around your route, your payload and the temperature band you have to hold. Every unit is sized against Kingdom ambient conditions rather than a European average, then installed and commissioned by our own engineers.",
     features: [
@@ -33,7 +33,7 @@ export const services: readonly Service[] = [
       { label: "Drive options", value: "Direct drive, diesel engine" },
       { label: "Certification", value: "ISO 9001 / 14001 / 45001" },
     ],
-    gallery: ["/images/services-cooling-units.webp", "/images/our-work-1.webp", "/images/our-work-2.webp"],
+    gallery: ["/images/single-service/gallery-04.png", "/images/single-service/gallery-05.png", "/images/single-service/gallery-06.png"],
   },
   {
     slug: "cold-rooms",
@@ -41,7 +41,7 @@ export const services: readonly Service[] = [
     group: "Cooling Solutions",
     intro:
       "Custom cold room design, supply and installation for food storage, pharmaceutical cold chain and industrial refrigeration.",
-    image: "/images/services-cold-rooms.webp",
+    image: "/images/single-service/gallery-01.png",
     overview:
       "Cold rooms designed around your footprint and throughput, fabricated in our Riyadh plant and installed without interrupting your operation. Panels, doors, refrigeration and controls come from one supplier, so responsibility never gets divided.",
     features: [
@@ -56,7 +56,7 @@ export const services: readonly Service[] = [
       { label: "Applications", value: "Food, pharmaceutical, industrial" },
       { label: "Certification", value: "ISO 9001 / 14001 / 45001" },
     ],
-    gallery: ["/images/services-cold-rooms.webp", "/images/our-work-1.webp", "/images/our-work-2.webp"],
+    gallery: ["/images/single-service/gallery-01.png", "/images/single-service/gallery-07.png", "/images/single-service/gallery-04.png"],
   },
   {
     slug: "tail-lifters",
@@ -64,7 +64,7 @@ export const services: readonly Service[] = [
     group: "Tail Lifters",
     intro:
       "Hydraulic tail lift systems for efficient loading and unloading, designed for logistics and delivery fleets.",
-    image: "/images/services-tail-lifters.webp",
+    image: "/images/single-service/gallery-02.png",
     overview:
       "Hydraulic tail lifts fitted to your vehicles and rated to your heaviest routine load. Faster turnarounds at the kerb, fewer manual handling injuries, and a service plan that keeps the fleet certified.",
     features: [
@@ -79,7 +79,7 @@ export const services: readonly Service[] = [
       { label: "Vehicle types", value: "Vans, rigid trucks, trailers" },
       { label: "Certification", value: "ISO 9001 / 14001 / 45001" },
     ],
-    gallery: ["/images/services-tail-lifters.webp", "/images/our-work-1.webp", "/images/our-work-2.webp"],
+    gallery: ["/images/single-service/gallery-02.png", "/images/single-service/gallery-05.png", "/images/single-service/gallery-06.png"],
   },
   {
     slug: "spider-cranes",
@@ -87,7 +87,7 @@ export const services: readonly Service[] = [
     group: "Spider Cranes",
     intro:
       "Compact spider cranes engineered to move heavy loads safely and precisely in space-restricted environments.",
-    image: "/images/services-spx-series.webp",
+    image: "/images/single-service/gallery-03.png",
     overview:
       "SPX, MPK and JF series compact cranes for lifting where a conventional crane cannot reach. Tracked, narrow and stable on outriggers, they work indoors, on finished floors and on constrained sites.",
     features: [
@@ -102,6 +102,6 @@ export const services: readonly Service[] = [
       { label: "Base", value: "Tracked crawler with outriggers" },
       { label: "Certification", value: "ISO 9001 / 14001 / 45001" },
     ],
-    gallery: ["/images/services-spx-series.webp", "/images/services-mpk-series.webp", "/images/services-jf-series.webp"],
+    gallery: ["/images/single-service/gallery-03.png", "/images/single-service/gallery-07.png", "/images/single-service/gallery-01.png"],
   },
 ];

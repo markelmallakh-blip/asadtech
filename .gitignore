@@ -43,3 +43,6 @@ next-env.d.ts
 # Raw Figma export staging — duplicates of public/images, not served
 /public/_to_delete/
 /public/_figma_export_pages/
+
+# Static export output
+/out/

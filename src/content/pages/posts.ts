@@ -17,7 +17,7 @@ export const posts: readonly Post[] = [
     date: "May 30, 2024",
     author: "Mohamed Ahmed",
     role: "Regional Manager",
-    image: "/images/blog-1.webp",
+    image: "/images/single-blog/header-background.png",
     excerpt:
       "Why an insulated body and the right refrigeration unit matter more than raw cooling power when moving perishables across Saudi Arabia.",
     body: [

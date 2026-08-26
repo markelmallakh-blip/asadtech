@@ -6,7 +6,7 @@ export const about = {
   hero: {
     tagline: "About ASAD",
     lines: ["Built to Move Your", "Business Forward"],
-    image: "/images/about-hero.webp",
+    image: "/images/about/hero-background.png",
     alt: "Aerial view of the Asadtech facility in Riyadh 2nd Industrial City at sunset",
   },
 
@@ -19,8 +19,8 @@ export const about = {
   numbers: {
     tagline: "Asadtech in Numbers",
     images: [
-      { src: "/images/about-home-2.webp", alt: "Asadtech engineers reviewing a cold room design" },
-      { src: "/images/about-home-3.webp", alt: "Technician loading a refrigerated vehicle" },
+      { src: "/images/about/gallery-01.png", alt: "Asadtech engineers reviewing a cold room design" },
+      { src: "/images/about/gallery-02.png", alt: "Technician loading a refrigerated vehicle" },
     ],
     stats: [
       { value: 15, suffix: "+", label: "Years of Experience" },
@@ -36,7 +36,7 @@ export const about = {
       text: "To keep the Kingdom's cold chain unbroken — engineering, building and maintaining the refrigeration and lifting equipment that moves food, medicine and materials safely from origin to destination.",
     },
     image: {
-      src: "/images/about-home-1.webp",
+      src: "/images/about/gallery-03.png",
       alt: "The Asadtech headquarters and fabrication facility",
     },
     trail: {
@@ -51,7 +51,7 @@ export const about = {
     /* PLACEHOLDER */
     heading: "Engineered and assembled in the Kingdom",
     body: "Our Riyadh 2nd Industrial City plant handles fabrication, assembly, installation and service under one roof, so specification, build quality and after-sales support never get handed between suppliers.",
-    image: { src: "/images/about-home-1.webp", alt: "Inside the Asadtech fabrication facility" },
+    image: { src: "/images/about/gallery-04.png", alt: "Inside the Asadtech fabrication facility" },
   },
 
   statement: {
@@ -62,9 +62,9 @@ export const about = {
     name: "Asad Advanced Technologies",
     role: "Riyadh, Kingdom of Saudi Arabia",
     images: [
-      { src: "/images/about-home-2.webp", alt: "Engineering team at work" },
-      { src: "/images/about-home-3.webp", alt: "Technician with fresh produce" },
-      { src: "/images/our-work-1.webp", alt: "Completed cold room installation" },
+      { src: "/images/about/gallery-01.png", alt: "Engineering team at work" },
+      { src: "/images/about/gallery-02.png", alt: "Technician with fresh produce" },
+      { src: "/images/about/gallery-03.png", alt: "Completed cold room installation" },
     ],
   },
 
@@ -72,21 +72,21 @@ export const about = {
     heading: "Our Leadership",
     /* PLACEHOLDER — real names, roles and portraits required */
     members: [
-      { name: "Amr Ebn Abdullah", role: "Managing Director", image: "/images/team-1.webp" },
-      { name: "Ahmed Abdel Hady", role: "Operations Director", image: "/images/team-2.webp" },
-      { name: "Khalid Al Otaibi", role: "Head of Engineering", image: "/images/team-3.webp" },
-      { name: "Mohamed Ahmed", role: "Regional Manager", image: "/images/team-4.webp" },
-      { name: "Sara Al Harbi", role: "Quality Manager", image: "/images/team-5.webp" },
-      { name: "Omar Nasser", role: "Service Manager", image: "/images/team-6.webp" },
-      { name: "Faisal Al Qahtani", role: "Commercial Manager", image: "/images/team-7.webp" },
-      { name: "Yousef Salem", role: "Projects Manager", image: "/images/team-8.webp" },
+      { name: "Amr Ebn Abdullah", role: "Managing Director", image: "/images/about/placeholder.png" },
+      { name: "Ahmed Abdel Hady", role: "Operations Director", image: "/images/about/placeholder.png" },
+      { name: "Khalid Al Otaibi", role: "Head of Engineering", image: "/images/about/placeholder.png" },
+      { name: "Mohamed Ahmed", role: "Regional Manager", image: "/images/about/placeholder.png" },
+      { name: "Sara Al Harbi", role: "Quality Manager", image: "/images/about/placeholder.png" },
+      { name: "Omar Nasser", role: "Service Manager", image: "/images/about/placeholder.png" },
+      { name: "Faisal Al Qahtani", role: "Commercial Manager", image: "/images/about/placeholder.png" },
+      { name: "Yousef Salem", role: "Projects Manager", image: "/images/about/placeholder.png" },
     ],
     careers: {
       heading: "We Are Hiring",
       body: "Explore careers now and join our community",
       cta: "View openings",
       href: "/en/careers",
-      image: { src: "/images/about-home-2.webp", alt: "The Asadtech team at work" },
+      image: { src: "/images/about/gallery-04.png", alt: "The Asadtech team at work" },
     },
   },
 } as const;
