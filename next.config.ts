@@ -20,7 +20,14 @@ const nextConfig: NextConfig = {
   basePath,
   assetPrefix: basePath || undefined,
   trailingSlash: true,
-  images: { unoptimized: true },
+  // Inlined so the image loader can read it in the browser bundle.
+  env: { NEXT_PUBLIC_BASE_PATH: basePath },
+  images: {
+    // A custom loader rather than `unoptimized`, which would strip the
+    // basePath from every image src on a project page.
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
+  },
 };
 
 export default nextConfig;
