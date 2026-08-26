@@ -6,7 +6,7 @@ export const about = {
   hero: {
     tagline: "About ASAD",
     lines: ["Built to Move Your", "Business Forward"],
-    image: "/images/about/hero-background.png",
+    image: "/images/about/header-background.png",
     alt: "Aerial view of the Asadtech facility in Riyadh 2nd Industrial City at sunset",
   },
 
@@ -72,14 +72,14 @@ export const about = {
     heading: "Our Leadership",
     /* PLACEHOLDER — real names, roles and portraits required */
     members: [
-      { name: "Amr Ebn Abdullah", role: "Managing Director", image: "/images/about/placeholder.png" },
-      { name: "Ahmed Abdel Hady", role: "Operations Director", image: "/images/about/placeholder.png" },
-      { name: "Khalid Al Otaibi", role: "Head of Engineering", image: "/images/about/placeholder.png" },
-      { name: "Mohamed Ahmed", role: "Regional Manager", image: "/images/about/placeholder.png" },
-      { name: "Sara Al Harbi", role: "Quality Manager", image: "/images/about/placeholder.png" },
-      { name: "Omar Nasser", role: "Service Manager", image: "/images/about/placeholder.png" },
-      { name: "Faisal Al Qahtani", role: "Commercial Manager", image: "/images/about/placeholder.png" },
-      { name: "Yousef Salem", role: "Projects Manager", image: "/images/about/placeholder.png" },
+      { name: "Amr Ebn Abdullah", role: "Managing Director", image: "/images/about/gallery-01.png" },
+      { name: "Ahmed Abdel Hady", role: "Operations Director", image: "/images/about/gallery-02.png" },
+      { name: "Khalid Al Otaibi", role: "Head of Engineering", image: "/images/about/gallery-03.png" },
+      { name: "Mohamed Ahmed", role: "Regional Manager", image: "/images/about/gallery-04.png" },
+      { name: "Sara Al Harbi", role: "Quality Manager", image: "/images/about/gallery-01.png" },
+      { name: "Omar Nasser", role: "Service Manager", image: "/images/about/gallery-02.png" },
+      { name: "Faisal Al Qahtani", role: "Commercial Manager", image: "/images/about/gallery-03.png" },
+      { name: "Yousef Salem", role: "Projects Manager", image: "/images/about/gallery-04.png" },
     ],
     careers: {
       heading: "We Are Hiring",

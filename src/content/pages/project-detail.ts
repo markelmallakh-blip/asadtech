@@ -27,7 +27,7 @@ const dominos: ProjectDetail = {
   intro:
     "Tailoring cold room installations to enhance food freshness at Domino's Pizza Dammam.",
   tags: ["Cooling Rooms", "Tail Lifters"],
-  hero: { src: "/images/single-project/hero-background.png", alt: "Cold room installed at Domino's Pizza Dammam" },
+  hero: { src: "/images/single-project/header-background.png", alt: "Cold room installed at Domino's Pizza Dammam" },
   overview: {
     tagline: "Project Overview",
     body: "A tailored cold-room solution designed to support Domino's Pizza Dammam with reliable, efficient and hygienic food storage. Each unit was specified around the branch's daily throughput, then built and commissioned without interrupting service.",

@@ -50,7 +50,7 @@ export default function PageHero({
       {/* Keeps the title legible where it crosses the photograph */}
       <div
         aria-hidden
-        className="absolute inset-0 bg-gradient-to-r from-navy via-navy/80 to-navy/10"
+        className="absolute inset-0 bg-gradient-to-r from-navy via-navy/55 to-transparent"
       />
 
       {/* ------------------------------------------------------ title block */}
