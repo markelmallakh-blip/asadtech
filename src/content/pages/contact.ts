@@ -2,7 +2,7 @@ export const contact = {
   heading: "Contact Us",
   body: "Get the right equipment, expert guidance, and dependable support to keep your operations moving.",
   image: {
-    src: "/images/contact/hero-background.png",
+    src: "/images/contact/hero-background.webp",
     alt: "Asadtech representatives shaking hands in the Riyadh office",
   },
   form: {

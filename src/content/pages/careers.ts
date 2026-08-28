@@ -87,7 +87,7 @@ export const careersPage = {
   hero: {
     tagline: "Careers",
     lines: ["Build the Cold Chain", "the Kingdom Runs On"],
-    image: { src: "/images/careers/hero-background.png", alt: "The Asadtech team on site" },
+    image: { src: "/images/careers/hero-background.webp", alt: "The Asadtech team on site" },
   },
   intro: {
     tagline: "Working at Asadtech",

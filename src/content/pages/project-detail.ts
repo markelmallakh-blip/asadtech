@@ -27,17 +27,17 @@ const dominos: ProjectDetail = {
   intro:
     "Tailoring cold room installations to enhance food freshness at Domino's Pizza Dammam.",
   tags: ["Cooling Rooms", "Tail Lifters"],
-  hero: { src: "/images/single-project/header-background.png", alt: "Cold room installed at Domino's Pizza Dammam" },
+  hero: { src: "/images/single-project/gallery-01.webp", alt: "Cold room installed at Domino's Pizza Dammam" },
   overview: {
     tagline: "Project Overview",
     body: "A tailored cold-room solution designed to support Domino's Pizza Dammam with reliable, efficient and hygienic food storage. Each unit was specified around the branch's daily throughput, then built and commissioned without interrupting service.",
   },
   client: {
     name: "Domino's Pizza — Dammam",
-    logo: "/images/single-project/gallery-08.png",
+    logo: "/images/single-project/gallery-08.webp",
     blurb:
       "Domino's Pizza is one of the world's leading pizza brands, known for its fast service, consistent quality and extensive network of restaurants. Maintaining reliable food storage is essential to preserving ingredient freshness and supporting the high operational standards expected from a busy food-service environment.",
-    image: { src: "/images/single-project/gallery-01.png", alt: "Domino's Pizza Dammam cold storage" },
+    image: { src: "/images/single-project/gallery-01.webp", alt: "Domino's Pizza Dammam cold storage" },
   },
   scope: {
     heading: "Project Scope",
@@ -47,7 +47,7 @@ const dominos: ProjectDetail = {
       "Refrigeration Supply & Installation",
       "Compliance & Food Safety",
     ],
-    image: { src: "/images/single-project/gallery-02.png", alt: "Completed cold room interior" },
+    image: { src: "/images/single-project/gallery-02.webp", alt: "Completed cold room interior" },
   },
   steps: {
     heading: "Installation & Implementation",
@@ -59,10 +59,10 @@ const dominos: ProjectDetail = {
     ],
   },
   gallery: [
-    { src: "/images/single-project/gallery-03.png", alt: "Cold room interior with evaporators" },
-    { src: "/images/single-project/gallery-04.png", alt: "Cold room ceiling units" },
-    { src: "/images/single-project/gallery-05.png", alt: "Cold room panelling" },
-    { src: "/images/single-project/gallery-06.png", alt: "Refrigeration unit" },
+    { src: "/images/single-project/gallery-03.webp", alt: "Cold room interior with evaporators" },
+    { src: "/images/single-project/gallery-04.webp", alt: "Cold room ceiling units" },
+    { src: "/images/single-project/gallery-05.webp", alt: "Cold room panelling" },
+    { src: "/images/single-project/gallery-06.webp", alt: "Refrigeration unit" },
   ],
   services: [
     {
@@ -90,7 +90,7 @@ const alkharj: ProjectDetail = {
   client: {
     ...dominos.client,
     name: "Alkharj Agricultural Storage",
-    logo: "/images/single-project/gallery-08.png",
+    logo: "/images/single-project/gallery-08.webp",
     blurb:
       "Alkharj is one of the Kingdom's most productive agricultural regions. Keeping harvested produce within a tight temperature band between field and market is what protects both shelf life and price.",
   },
