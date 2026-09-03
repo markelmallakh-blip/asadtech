@@ -44,6 +44,7 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         eyebrow={service.title}
         headline={service.headline ?? service.title}
         body={service.intro}
+        overview={service.overview}
         video={service.video}
         poster={service.image}
         cta="REQUEST INTEREST"
@@ -52,24 +53,12 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
 
       {/* -------------------------------------------------------- overview */}
       <section className="shell py-20 lg:py-[80px]">
-        <div className="grid gap-8 lg:grid-cols-[380fr_1012fr] lg:gap-16">
-          <Reveal as="p" kind="fade" className="text-h6 text-blue">
-            Overview
-          </Reveal>
-          <SplitHeading
-            as="p"
-            className="text-[clamp(1.15rem,2vw,1.75rem)] leading-[1.45] font-medium text-text-dark"
-          >
-            {service.overview}
-          </SplitHeading>
-        </div>
-
         {service.overviewImages && (
           /* Two pictures with the Kingdom badge set between them, turning as
              the section goes by. */
           <div
             data-badge-track
-            className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:gap-8"
+            className="relative grid gap-4 sm:grid-cols-2 lg:gap-8"
           >
             {service.overviewImages.map((src, i) => (
               <Reveal key={src} kind="clip" delay={i * 0.1}>
