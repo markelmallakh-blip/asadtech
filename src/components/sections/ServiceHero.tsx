@@ -122,7 +122,10 @@ export default function ServiceHero({
   return (
     <section
       ref={sectionRef}
-      className="flex flex-col overflow-clip bg-blue-10 lg:items-end"
+      /* Runs past the fold so the section below cannot creep into view
+         before the card has opened. The card grows down into this room
+         as it unfolds, so the band closes up rather than staying empty. */
+      className="flex flex-col overflow-clip bg-blue-10 lg:min-h-[calc(100svh+140px)] lg:items-end lg:pb-[140px]"
     >
       <div
         ref={mediaRef}
