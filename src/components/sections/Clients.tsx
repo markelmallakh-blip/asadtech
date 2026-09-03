@@ -16,7 +16,7 @@ export default function Clients() {
           <Reveal key={index} kind="fade" delay={index * 0.08}>
             <Marquee
               direction={index % 2 === 0 ? "left" : "right"}
-              duration={52 + index * 6}
+              duration={30 + index * 4}
             >
               {row.map((logo, i) => (
                 <div

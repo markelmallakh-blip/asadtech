@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { en } from "@/content/en";
 import SplitHeading from "@/components/motion/SplitHeading";
+import HeroSlides from "@/components/motion/HeroSlides";
+import HeroBackdrop from "@/components/motion/HeroBackdrop";
+import HeroVehicle from "@/components/motion/HeroVehicle";
 import HeroCard from "@/components/motion/HeroCard";
-import HeroTruck from "@/components/motion/HeroTruck";
 import { Reveal, RevealGroup } from "@/components/motion/Reveal";
 
 export default function Hero() {
@@ -12,26 +14,12 @@ export default function Hero() {
     /* Locked to exactly one viewport: a fixed height plus a flex column, so
        the vehicle takes whatever room is left instead of pushing the section
        past the fold. `svh` keeps it honest on mobile browser chrome. */
-    <section
-      data-parallax-scope
-      className="relative isolate flex h-[100svh] flex-col overflow-hidden bg-navy"
-    >
-      {/* ---------------------------------------------------- sky background */}
-      <div className="absolute inset-0 -z-20">
-        <div className="parallax-frame absolute inset-0">
-          <div className="parallax-media" data-parallax="18">
-            <Image
-              src="/images/hero-background.webp"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className="object-cover"
-            />
-          </div>
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-navy/55 via-navy/10 to-navy/45" />
-      </div>
+    <HeroSlides>
+      <section
+        data-parallax-scope
+        className="relative isolate flex h-[100svh] flex-col overflow-hidden bg-navy"
+      >
+      <HeroBackdrop />
 
       {/* ------------------------------------------------------------- copy */}
       <div className="shell relative z-10 shrink-0 pt-[112px] text-center lg:pt-[150px]">
@@ -58,14 +46,10 @@ export default function Hero() {
         </SplitHeading>
       </div>
 
-      {/* ------------------------------------------------------------ truck */}
+      {/* ----------------------------------------------------------- vehicle */}
       <div className="relative z-0 min-h-0 flex-1 pt-6">
         <div className="mx-auto h-full w-full max-w-[1100px] px-4 lg:px-0">
-          <HeroTruck
-            src="/images/hero-truck.webp"
-            alt="Asadtech refrigerated delivery truck loaded with fresh produce"
-            className="h-full w-full"
-          />
+          <HeroVehicle />
         </div>
       </div>
 
@@ -111,6 +95,7 @@ export default function Hero() {
           <HeroCard />
         </Reveal>
       </div>
-    </section>
+      </section>
+    </HeroSlides>
   );
 }

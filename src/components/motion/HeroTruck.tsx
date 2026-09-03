@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
@@ -16,12 +15,10 @@ import { cn } from "@/lib/utils";
  * The ground shadow is baked into the supplied artwork.
  */
 export default function HeroTruck({
-  src,
-  alt,
+  children,
   className,
 }: {
-  src: string;
-  alt: string;
+  children: React.ReactNode;
   className?: string;
 }) {
   const arrivalRef = useRef<HTMLDivElement>(null);
@@ -84,19 +81,9 @@ export default function HeroTruck({
     <div ref={arrivalRef} className={cn("relative opacity-0", className)}>
       <div ref={floatRef} className="relative h-full w-full">
         <div ref={driftRef} className="relative h-full w-full">
-          {/* No synthetic shadow here: the supplied artwork carries its own
-              ground shadow, and layering a second one reads as a double.
-              object-contain + object-bottom parks the wheels on the floor of
-              whatever space is left, so the truck can never ride up into the
-              headline on a short viewport. */}
-          <Image
-            src={src}
-            alt={alt}
-            fill
-            priority
-            sizes="(max-width: 1024px) 96vw, 1100px"
-            className="object-contain object-bottom"
-          />
+          {/* No synthetic shadow here: the supplied artwork carries its
+              own ground shadow, and layering a second reads as a double. */}
+          {children}
         </div>
       </div>
     </div>

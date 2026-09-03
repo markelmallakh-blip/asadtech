@@ -209,20 +209,25 @@ export default function WhyChoose() {
 
         {/* ------------------------------------ act three: the numbered list */}
         <div className="absolute inset-0 z-10 hidden items-center lg:flex">
-          <div className="shell flex w-full items-center justify-between gap-12">
-            <div className="relative h-[100svh] w-[min(620px,48vw)] overflow-hidden">
-              <div ref={listRef} className="absolute inset-x-0 top-1/2 opacity-0">
+          <div className="relative w-full">
+            {/* Centred rather than tucked left, so the pinned headline in the
+                corner never has to share space with a reason title. */}
+            <div className="relative mx-auto h-[100svh] w-[min(560px,42vw)] overflow-hidden">
+              <div
+                ref={listRef}
+                className="absolute inset-x-0 top-1/2 text-center opacity-0"
+              >
                 {reasons.map((reason, index) => (
                   <div key={reason.title} data-item className="py-7">
                     <p className="text-body-sm font-semibold tracking-[0.14em] text-white/70">
                       {String(index + 1).padStart(2, "0")}.
                     </p>
-                    <h3 className="mt-2 text-h3 leading-[1.1] text-white">
+                    <h3 className="mt-2 text-h5 leading-[1.2] text-white">
                       {reason.title}
                     </h3>
                     <p
                       data-body
-                      className="mt-3 max-w-[460px] text-body leading-[1.5] text-white/75 opacity-0"
+                      className="mx-auto mt-3 max-w-[420px] text-body-sm leading-[1.6] text-white/75 opacity-0"
                     >
                       {reason.body}
                     </p>
@@ -231,7 +236,7 @@ export default function WhyChoose() {
               </div>
             </div>
 
-            <div className="relative h-[100svh] w-[220px] shrink-0 overflow-hidden">
+            <div className="absolute end-[60px] top-0 h-[100svh] w-[200px] overflow-hidden">
               <div ref={thumbsRef} className="absolute inset-x-0 top-1/2 opacity-0">
                 {reasons.map((reason) => (
                   <div key={reason.image} data-thumb className="py-4">

@@ -32,8 +32,15 @@ export default function Work() {
       <Reveal kind="fade">
         <Link
           href={allHref}
-          className="group/band block bg-teal py-16 transition-colors duration-500 hover:bg-blue lg:py-[70px]"
+          className="group/band relative isolate block overflow-hidden bg-teal py-16 lg:py-[70px]"
         >
+          {/* Blue arrives as a circle opening out of the middle rather than a
+              flat colour swap. Sized off the width so it always clears the
+              band's corners. */}
+          <span
+            aria-hidden
+            className="absolute left-1/2 top-1/2 -z-10 aspect-square w-[130%] -translate-x-1/2 -translate-y-1/2 scale-0 rounded-full bg-blue transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/band:scale-100"
+          />
           <span className="shell flex justify-center">
             <span className="inline-flex h-[46px] items-center rounded-full border-2 border-white px-7 text-body-sm font-medium text-white">
               {allCta}

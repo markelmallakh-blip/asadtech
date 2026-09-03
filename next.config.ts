@@ -22,6 +22,12 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   // Inlined so the image loader can read it in the browser bundle.
   env: { NEXT_PUBLIC_BASE_PATH: basePath },
+  /* The exported site redirects `/` via public/index.html, but that file is
+     not served by the dev server — so without this, localhost:3000/ is a 404.
+     Ignored during export (Next warns), which is exactly what we want. */
+  async redirects() {
+    return [{ source: "/", destination: "/en", permanent: false }];
+  },
   images: {
     // A custom loader rather than `unoptimized`, which would strip the
     // basePath from every image src on a project page.

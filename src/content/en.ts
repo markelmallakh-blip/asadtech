@@ -32,28 +32,40 @@ export const en = {
     headline: { before: "Technology That", script: "Works", after: "As Hard As You Do." },
     cta: "Explore",
     autoplayMs: 6000,
-    /* The card cycles through the solution families. Headline and artwork stay
-       put; only this panel changes, matching the Figma (node 41:2706). */
+    /* Each slide carries its own backdrop and vehicle, so the whole stage
+       changes with the card (Figma 41:2706 and 178:1944). */
     cards: [
       {
         title: "Cooling Units",
         body: "Direct-drive and diesel transport refrigeration built for Saudi heat — engineered to hold temperature from the depot to the last drop-off.",
         href: "/en/solutions/cooling-units",
+        background: "/images/hero-background.webp",
+        vehicle: "/images/hero-truck.webp",
+        alt: "Asadtech refrigerated delivery truck on the highway into Riyadh",
       },
       {
         title: "Cold Rooms",
         body: "Custom cold room design, supply and installation for food storage, pharmaceutical cold chain, and industrial refrigeration across the Kingdom.",
         href: "/en/solutions/cold-rooms",
+        background: "/images/hero-background.webp",
+        vehicle: "/images/hero-truck.webp",
+        alt: "Asadtech refrigerated delivery truck on the highway into Riyadh",
       },
       {
         title: "Tail Lifters",
         body: "Hydraulic tail lift systems that make loading and unloading faster and safer for logistics and delivery fleets operating across Saudi Arabia.",
         href: "/en/solutions/tail-lifters",
+        background: "/images/hero-background.webp",
+        vehicle: "/images/hero-truck.webp",
+        alt: "Asadtech refrigerated delivery truck on the highway into Riyadh",
       },
       {
-        title: "Spider Cranes",
-        body: "Compact SPX, MPK and JF series cranes that move heavy loads precisely, even on sites where space and access are tightly restricted.",
+        title: "SPX Series",
+        body: "Compact spider cranes that move heavy loads precisely, even on sites where space and access are tightly restricted.",
         href: "/en/solutions/spider-cranes",
+        background: "/images/hero-spider-background.webp",
+        vehicle: "/images/hero-spider-vehicle.webp",
+        alt: "Asadtech SPX series spider crane set up on an industrial yard",
       },
     ],
     trust: {
