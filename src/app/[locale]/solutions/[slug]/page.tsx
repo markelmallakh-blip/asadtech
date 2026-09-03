@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { services } from "@/content/pages/services";
+import { services, serviceShared } from "@/content/pages/services";
 import { locales } from "@/lib/i18n";
 import ServiceHero from "@/components/sections/ServiceHero";
-import ParallaxFigure from "@/components/motion/ParallaxFigure";
-import SplitHeading from "@/components/motion/SplitHeading";
+import SplitPanels from "@/components/sections/SplitPanels";
+import ProductApplications from "@/components/sections/ProductApplications";
+import ModelsList from "@/components/sections/ModelsList";
+import WarrantyBand from "@/components/sections/WarrantyBand";
+import InstallationBand from "@/components/sections/InstallationBand";
+import Downloads from "@/components/sections/Downloads";
+import GalleryGrid from "@/components/sections/GalleryGrid";
 import RequestInterest from "@/components/sections/RequestInterest";
-import Testimonials from "@/components/sections/Testimonials";
-import { Reveal, RevealGroup } from "@/components/motion/Reveal";
-import { ArrowUpRight } from "@/components/ui/Icons";
 
 type Params = { locale: string; slug: string };
 
@@ -30,12 +31,13 @@ export async function generateMetadata({
   return { title: service.title, description: service.intro };
 }
 
+/** Single-solution page, section for section after Figma 69:8644. */
 export default async function ServicePage({ params }: { params: Promise<Params> }) {
   const { locale, slug } = await params;
   const service = services.find((s) => s.slug === slug);
   if (!service) notFound();
 
-  const others = services.filter((s) => s.slug !== slug);
+  const { models, warranty, installation, downloads, gallery } = serviceShared;
 
   return (
     <>
@@ -52,115 +54,62 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
       />
 
       {/* -------------------------------------------------------- features */}
-      <section className="bg-blue-10 py-20 lg:py-[80px]">
-        <div className="shell">
-          <SplitHeading as="h2" className="text-h4 text-ink lg:text-h3">
-            What you get
-          </SplitHeading>
+      <SplitPanels
+        heading={`Asad ${service.title} Features`}
+        image={service.featuresImage}
+        items={service.features}
+      />
 
-          <RevealGroup
-            stagger={0.1}
-            className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8"
-          >
-            {service.features.map((feature, i) => (
-              <Reveal key={feature.title}>
-                <p className="font-display text-h5 leading-none text-blue">
-                  {String(i + 1).padStart(2, "0")}
-                </p>
-                <h3 className="mt-4 text-h6 text-ink">{feature.title}</h3>
-                <p className="mt-2 text-body-sm leading-[1.6] text-ink-soft">
-                  {feature.body}
-                </p>
-              </Reveal>
-            ))}
-          </RevealGroup>
-        </div>
-      </section>
+      {/* -------------------------------------------------- applications */}
+      <ProductApplications
+        items={service.applications}
+        image="/images/single-service/gallery-02.webp"
+        alt={`${service.title} truck loaded with fresh produce`}
+      />
 
-      {/* --------------------------------------------------- specs + image */}
-      <section className="shell py-20 lg:py-[80px]">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
-          <div>
-            <SplitHeading as="h2" className="text-h4 text-ink lg:text-h3">
-              Specification
-            </SplitHeading>
+      {/* ---------------------------------------------------------- models */}
+      <ModelsList
+        tagline={models.tagline}
+        heading={models.heading}
+        intro={service.modelsIntro}
+        allTab={models.allTab}
+        brochure={models.brochure}
+        brochureHref={models.brochureHref}
+        groups={service.models}
+      />
 
-            <RevealGroup stagger={0.08} className="mt-8 flex flex-col">
-              {service.specs.map((spec) => (
-                <Reveal
-                  key={spec.label}
-                  className="flex items-baseline justify-between gap-6 border-b border-blue-20 py-5 first:border-t"
-                >
-                  <span className="text-body-sm text-ink-soft">{spec.label}</span>
-                  <span className="text-body font-medium text-ink">{spec.value}</span>
-                </Reveal>
-              ))}
-            </RevealGroup>
-          </div>
+      {/* -------------------------------------------------------- warranty */}
+      <WarrantyBand
+        heading={warranty.heading}
+        tagline={warranty.tagline}
+        items={warranty.items}
+      />
 
-          <Reveal kind="clip">
-            <ParallaxFigure
-              src={service.gallery[0]}
-              alt={service.title}
-              strength={14}
-              sizes="(max-width: 1024px) 100vw, 680px"
-              className="aspect-[680/560] w-full"
-            />
-          </Reveal>
-        </div>
-      </section>
+      {/* ---------------------------------------------------- installation */}
+      <InstallationBand
+        tag={installation.tag}
+        heading={installation.heading}
+        image={installation.image}
+        rows={installation.rows}
+        cta={installation.cta}
+        href={installation.href}
+      />
+
+      {/* ------------------------------------------------------- downloads */}
+      <Downloads heading={downloads.heading} items={downloads.items} />
 
       {/* --------------------------------------------------------- gallery */}
-      <section className="shell pb-20 lg:pb-[80px]">
-        <RevealGroup stagger={0.08} className="grid gap-4 sm:grid-cols-3">
-          {service.gallery.map((src, i) => (
-            <Reveal key={`${src}-${i}`} kind="clip">
-              <ParallaxFigure
-                src={src}
-                alt={`${service.title} ${i + 1}`}
-                strength={12}
-                sizes="(max-width: 640px) 100vw, 33vw"
-                className="aspect-[440/320] w-full"
-              />
-            </Reveal>
-          ))}
-        </RevealGroup>
-      </section>
+      <GalleryGrid
+        tagline={gallery.tagline}
+        heading={gallery.heading}
+        images={service.gallery}
+        alt={service.title}
+      />
 
-      {/* ---------------------------------------------------- other services */}
-      <section className="shell pb-20 lg:pb-[80px]">
-        <SplitHeading as="h2" className="text-h4 text-ink lg:text-h3">
-          Other solutions
-        </SplitHeading>
-
-        <RevealGroup stagger={0.08} className="mt-10 grid gap-6 sm:grid-cols-3">
-          {others.map((other) => (
-            <Reveal key={other.slug} kind="clip">
-              <Link href={`/en/solutions/${other.slug}`} className="group flex flex-col">
-                <ParallaxFigure
-                  src={other.image}
-                  alt={other.title}
-                  strength={12}
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  className="aspect-[440/280] w-full"
-                />
-                <div className="relative bg-blue-10 p-6">
-                  <span className="absolute -top-7 end-6 flex size-14 items-center justify-center rounded-full border-2 border-white bg-blue text-white transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-45">
-                    <ArrowUpRight className="size-[30px]" />
-                  </span>
-                  <h3 className="text-h6 text-ink">{other.title}</h3>
-                  <p className="mt-2 text-body-sm leading-[1.5] text-ink-soft">
-                    {other.intro}
-                  </p>
-                </div>
-              </Link>
-            </Reveal>
-          ))}
-        </RevealGroup>
-      </section>
-
-      <Testimonials />
-      <RequestInterest />
+      {/* The only page with the lead form: its model list is this solution's */}
+      <RequestInterest
+        models={service.models.flatMap((group) => group.items.map((model) => model.name))}
+      />
     </>
   );
 }

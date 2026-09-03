@@ -1,23 +1,23 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { cn } from "@/lib/utils";
+import SegmentedTabs from "@/components/ui/SegmentedTabs";
 import ProjectList, { type Project } from "@/components/sections/ProjectList";
 import { Reveal } from "@/components/motion/Reveal";
 
-/** Filter pills over the project rows (Figma 97:11509). */
+/** Segmented filter over the project rows (Figma 105:1669). */
 export default function ProjectFilters({
   filters,
   projects,
 }: {
-  filters: string[];
+  filters: readonly string[];
   projects: readonly Project[];
 }) {
   const [active, setActive] = useState(filters[0]);
 
   const shown = useMemo(() => {
     if (active === filters[0]) return projects;
-    /* Tags are matched loosely so "Tail Lifters" also catches "Tail Lifter". */
+    /* Tags are matched loosely so "Tail Lifter" also catches "Tail Lifters". */
     const needle = active.replace(/s$/, "").toLowerCase();
     return projects.filter((p) =>
       p.tags.some((tag) => tag.toLowerCase().includes(needle)),
@@ -25,24 +25,14 @@ export default function ProjectFilters({
   }, [active, filters, projects]);
 
   return (
-    <section className="py-14 lg:py-[60px]">
-      <Reveal kind="fade" className="shell mb-10 flex flex-wrap justify-end gap-2">
-        {filters.map((filter) => (
-          <button
-            key={filter}
-            type="button"
-            onClick={() => setActive(filter)}
-            aria-pressed={filter === active}
-            className={cn(
-              "h-[38px] rounded-full px-5 text-body-sm font-medium transition-colors duration-300",
-              filter === active
-                ? "bg-blue text-white"
-                : "bg-blue-10 text-ink-soft hover:bg-blue-20",
-            )}
-          >
-            {filter}
-          </button>
-        ))}
+    <section className="bg-white">
+      <Reveal kind="fade" className="shell flex justify-end py-6">
+        <SegmentedTabs
+          options={filters}
+          value={active}
+          onChange={setActive}
+          label="Filter projects"
+        />
       </Reveal>
 
       {shown.length > 0 ? (

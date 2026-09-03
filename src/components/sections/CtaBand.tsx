@@ -24,7 +24,7 @@ export default function CtaBand() {
 
       {/* 32px inset from the photograph on every side, rather than the wider
           page gutter, so the card reads as sitting on the image. */}
-      <div className="px-8 pt-[220px] lg:pt-[290px]">
+      <div className="px-4 pt-[220px] lg:px-8 lg:pt-[290px]">
         <Reveal
           kind="fade-up"
           className="rounded-2xl bg-white px-8 py-12 lg:px-[44px] lg:py-[56px]"

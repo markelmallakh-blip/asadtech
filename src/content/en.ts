@@ -8,9 +8,9 @@ export const en = {
     links: [
       { label: "Home", href: "/en" },
       { label: "About", href: "/en/about" },
+      /* No index page behind it: the label opens the list of solutions. */
       {
         label: "Our Solutions",
-        href: "/en/solutions",
         children: [
           { label: "Cooling Units", href: "/en/solutions/cooling-units" },
           { label: "Cold Rooms", href: "/en/solutions/cold-rooms" },

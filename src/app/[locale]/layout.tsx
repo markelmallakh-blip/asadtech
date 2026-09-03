@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Poppins, Caveat, Mrs_Saint_Delafield } from "next/font/google";
+import { Poppins, Caveat, Mrs_Saint_Delafield, Noto_Kufi_Arabic } from "next/font/google";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -27,6 +27,14 @@ const signature = Mrs_Saint_Delafield({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-signature-face",
+  display: "swap",
+});
+
+/* The Arabic locale's face; globals.css swaps the font tokens to it. */
+const kufi = Noto_Kufi_Arabic({
+  subsets: ["arabic"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-kufi",
   display: "swap",
 });
 
@@ -65,7 +73,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={localeDirection[locale]}
-      className={`${poppins.variable} ${caveat.variable} ${signature.variable}`}
+      className={`${poppins.variable} ${caveat.variable} ${signature.variable} ${kufi.variable}`}
     >
       <body className="antialiased">
         <SmoothScroll>

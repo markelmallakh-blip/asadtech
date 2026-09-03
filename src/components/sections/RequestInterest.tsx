@@ -7,19 +7,26 @@ import Button from "@/components/ui/Button";
 import ParallaxFigure from "@/components/motion/ParallaxFigure";
 import SplitHeading from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
+import FormSuccess from "@/components/ui/FormSuccess";
 import { cn } from "@/lib/utils";
 
 const field =
   "h-[52px] w-full rounded-sm bg-grey-05 px-4 text-body-sm text-ink placeholder:text-grey-5 outline-none transition-colors duration-300 focus:bg-white focus:ring-2 focus:ring-blue/40";
 
-/** Facility band with the interest form card laid over it (Figma 97:11509). */
-export default function RequestInterest() {
+/** Facility photograph with the interest form card sitting on it (Figma 97:11509, 69:9081). */
+export default function RequestInterest({
+  models,
+}: {
+  /** The models offered in the dropdown — the solution page passes its own. */
+  models?: readonly string[];
+}) {
   const { banner, request } = projectsPage;
   const f = contact.form;
-  const [sent] = useState(false);
+  const [sent, setSent] = useState(false);
+  const options = models ?? request.models;
 
   return (
-    <section id="request" className="relative isolate">
+    <section id="request" className="relative isolate overflow-hidden pb-8">
       <ParallaxFigure
         src={banner.src}
         alt={banner.alt}
@@ -27,13 +34,15 @@ export default function RequestInterest() {
         tone="dark"
         label={banner.alt}
         sizes="100vw"
-        className="h-[320px] w-full lg:h-[420px]"
+        className="absolute inset-0 -z-10"
       />
 
-      <div className="shell relative -mt-20 pb-20 lg:-mt-[120px] lg:pb-[80px]">
+      {/* 32px inset from the photograph on every side, as on the CTA band,
+          so the card reads as sitting on the image (Figma 69:9081). */}
+      <div className="px-8 pt-[220px] lg:pt-[290px]">
         <Reveal
           kind="fade-up"
-          className="grid gap-10 bg-white p-8 lg:grid-cols-2 lg:gap-16 lg:p-[56px]"
+          className="grid gap-10 rounded-3xl bg-white p-8 lg:grid-cols-2 lg:gap-16 lg:px-8 lg:py-[50px]"
         >
           <div>
             <SplitHeading as="h2" className="text-h3 text-ink lg:text-h2">
@@ -48,8 +57,14 @@ export default function RequestInterest() {
             </p>
           </div>
 
+          {sent ? (
+            <FormSuccess />
+          ) : (
           <form
-            onSubmit={(event) => event.preventDefault()}
+            onSubmit={(event) => {
+              event.preventDefault();
+              setSent(true);
+            }}
             className="flex flex-col gap-3"
           >
             <div className="grid gap-3 sm:grid-cols-2">
@@ -63,7 +78,7 @@ export default function RequestInterest() {
               <option value="" disabled>
                 {request.model}
               </option>
-              {request.models.map((model) => (
+              {options.map((model) => (
                 <option key={model} value={model}>
                   {model}
                 </option>
@@ -78,9 +93,10 @@ export default function RequestInterest() {
             />
 
             <Button type="submit" variant="primary" size="md" className="mt-3 self-start">
-              {sent ? "Sent" : request.submit}
+              {request.submit}
             </Button>
           </form>
+          )}
         </Reveal>
       </div>
     </section>

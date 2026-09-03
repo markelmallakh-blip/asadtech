@@ -1,13 +1,15 @@
+/** Projects index copy (Figma 97:11509). */
 export const projectsPage = {
   hero: {
-    tagline: "Our Projects",
-    lines: ["Delivering Solutions That", "Keep Business Moving"],
+    chip: "Our Projects",
+    heading: "Delivering Solutions That Keep Business Moving",
     body: "From cold rooms to hydraulic lifting, every project on this list is a fleet or a facility we keep running across the Kingdom.",
-    cta: "Request interest",
+    cta: "REQUEST INTEREST",
     href: "#request",
-    image: { src: "/images/projects/hero-background.webp", alt: "Asadtech refrigerated fleet on site" },
+    image: { src: "/images/projects/hero-background.webp", alt: "Asadtech engineers fitting a cooling unit" },
   },
-  filters: ["All Projects", "Cooling Units", "Cooling Rooms", "Tail Lifters", "Spider Cranes"],
+  filters: ["All Projects", "Cooling Units", "Cooling Rooms", "Tail Lifter", "Spider Cranes"],
+  allCta: "EXPLORE ALL PROJECTS",
   banner: { src: "/images/projects/cta-background.webp", alt: "Aerial view of the Asadtech facility" },
   request: {
     heading: ["Request", "Interest"],

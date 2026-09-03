@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BackgroundVideo from "@/components/motion/BackgroundVideo";
@@ -12,17 +12,35 @@ import SplitHeading from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
 
 /** Card widths for the two states in Figma 71:9377. */
+const CLOSED = 698;
 const OPEN = 1262;
+/** Where the card's top sits on arrival, and where it comes to rest. */
+const CLOSED_TOP = 400;
+const OPEN_TOP = 100;
+/** Scroll distance the opening is spread over while the header is pinned. */
+const PIN = 1000;
+
+/**
+ * The pin wraps the section in a spacer, so it has to be reverted before
+ * React unmounts the section on navigation — a layout effect's cleanup runs
+ * ahead of the DOM removal, a passive effect's after it.
+ */
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 /**
  * Single-service header (Figma 71:9377, states "151" and "Variant2").
  *
- * The footage sticks to the top while the white card is pulled up over its
- * lower edge. Closed, the card is 698px and ends at the CTA. Arriving at it
- * opens it out to 1262px and unfolds the rest from under the CTA — a rule,
- * the overview, and the two pictures with the Kingdom badge across their seam
- * — so the overview is revealed by the card rather than sitting in a section
- * of its own beneath it.
+ * The footage fills the viewport and the closed card sits over its lower
+ * edge, ending at the CTA. The first scroll pins the header and drives the
+ * opening: the card climbs, widens to 1262 and unfolds the overview and the
+ * two pictures from under the CTA, all tied to the scroll position. The pin
+ * holds the page until the card has fully opened, so the section below can
+ * never appear first.
+ *
+ * The section reserves its open height from the start, so the document does
+ * not grow under the reader as the fold expands and every scroll trigger
+ * further down keeps its place.
  *
  * Below `lg` it is a plain stack: footage, card, overview, all open.
  */
@@ -49,16 +67,14 @@ export default function ServiceHero({
   href: string;
 }) {
   const sectionRef = useRef<HTMLElement>(null);
-  const mediaRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const foldRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const section = sectionRef.current;
-    const media = mediaRef.current;
     const card = cardRef.current;
     const fold = foldRef.current;
-    if (!section || !media || !card || !fold) return;
+    if (!section || !card || !fold) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -67,33 +83,55 @@ export default function ServiceHero({
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
         "(min-width: 1024px)": () => {
-          gsap.set(fold, { height: 0, opacity: 0 });
+          /* The fold's open height, measured at the open width — the text
+             wraps differently at 698, so measuring there would leave a band
+             of empty card under the pictures once it has widened. */
+          const openHeight = () => {
+            const width = card.style.width;
+            const height = fold.style.height;
+            gsap.set(card, { width: OPEN });
+            gsap.set(fold, { height: "auto" });
+            const measured = fold.offsetHeight;
+            gsap.set(card, { width: width || CLOSED });
+            gsap.set(fold, { height: height || 0 });
+            return measured;
+          };
 
-          /* Opened once on arrival rather than scrubbed: the fold is taller
-             than a viewport, and scrubbing its height would resize the
-             document under the reader on every frame of the scroll. */
+          const closedTop = () => -(window.innerHeight - CLOSED_TOP);
+          const openTop = () => -(window.innerHeight - OPEN_TOP);
+
+          gsap.set(fold, { height: 0, opacity: 0 });
+          gsap.set(card, { width: CLOSED, marginTop: closedTop });
+
+          /* Reserve the open layout up front: the card's resting top plus
+             its open height, so opening it never lengthens the page. */
+          const foldHeight = openHeight();
+          gsap.set(section, {
+            minHeight: () =>
+              OPEN_TOP + card.offsetHeight + foldHeight + 32 /* fold gap */,
+          });
+
           gsap
             .timeline({
               scrollTrigger: {
-                /* Measured against the footage, not the card: the card is the
-                   thing being resized, so using it as its own trigger moves
-                   the start line out from under the timeline. */
-                trigger: media,
-                start: "bottom 60%",
-                toggleActions: "play none none reverse",
+                trigger: section,
+                start: "top top",
+                end: `+=${PIN}`,
+                pin: true,
+                scrub: 0.6,
+                anticipatePin: 1,
                 invalidateOnRefresh: true,
               },
             })
-            .to(card, { width: OPEN, duration: 0.7, ease: "power3.inOut" })
+            .to(
+              card,
+              { width: OPEN, marginTop: openTop, ease: "none", duration: 1 },
+              0,
+            )
             .to(
               fold,
-              {
-                height: "auto",
-                opacity: 1,
-                duration: 0.8,
-                ease: "power3.inOut",
-              },
-              0.25,
+              { height: () => openHeight(), opacity: 1, ease: "none", duration: 1 },
+              0,
             );
         },
       });
@@ -122,17 +160,9 @@ export default function ServiceHero({
   return (
     <section
       ref={sectionRef}
-      /* Runs past the fold so the section below cannot creep into view
-         before the card has opened. The card grows down into this room
-         as it unfolds, so the band closes up rather than staying empty. */
-      className="flex flex-col overflow-clip bg-blue-10 lg:min-h-[calc(100svh+140px)] lg:items-end lg:pb-[140px]"
+      className="flex flex-col overflow-clip bg-blue-10 lg:items-end"
     >
-      <div
-        ref={mediaRef}
-        /* Figma's 850 on a tall screen, but never so tall that the card's
-           CTA is pushed under the fold on a shorter one. */
-        className="relative h-[420px] w-full lg:sticky lg:top-0 lg:h-[min(850px,calc(100svh-320px))]"
-      >
+      <div className="relative h-[420px] w-full lg:sticky lg:top-0 lg:h-[100svh]">
         {media}
       </div>
 
@@ -140,8 +170,10 @@ export default function ServiceHero({
         ref={cardRef}
         /* Positioned so it paints over the footage: the media panel is
            sticky, and a positioned element covers a static sibling
-           however the two are ordered in the markup. */
-        className="relative z-10 flex w-full flex-col gap-8 bg-white p-8 lg:-mt-[180px] lg:w-[698px] lg:p-[60px]"
+           however the two are ordered in the markup. On desktop the
+           timeline sets the width and the pull-up; these are the
+           fallbacks for reduced motion. */
+        className="relative z-10 flex w-full flex-col gap-8 bg-white p-8 lg:-mt-[calc(100svh-400px)] lg:w-[698px] lg:p-[60px]"
       >
         <div className="flex w-full max-w-[768px] flex-col gap-8">
           <div className="flex flex-col gap-6">
@@ -174,7 +206,7 @@ export default function ServiceHero({
         </div>
 
         {/* Open on mobile and under reduced motion; the desktop timeline
-            collapses this and unfolds it on arrival. */}
+            collapses this and unfolds it as the page is scrolled. */}
         <div
           ref={foldRef}
           className="flex w-full flex-col gap-8 overflow-hidden"

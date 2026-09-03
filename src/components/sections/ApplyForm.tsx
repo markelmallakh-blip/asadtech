@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { careersPage } from "@/content/pages/careers";
+import FormSuccess from "@/components/ui/FormSuccess";
 import { contact } from "@/content/pages/contact";
 import Button from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
@@ -11,10 +13,25 @@ const field =
 /** Application form on a role page. No endpoint wired yet — see handover. */
 export default function ApplyForm({ role }: { role: string }) {
   const f = contact.form;
+  const [sent, setSent] = useState(false);
+
+  if (sent) {
+    return (
+      <div className="mt-7">
+        <FormSuccess
+          heading="Application received"
+          body="Thank you — we’ve received your application and will get back to you very soon."
+        />
+      </div>
+    );
+  }
 
   return (
     <form
-      onSubmit={(event) => event.preventDefault()}
+      onSubmit={(event) => {
+        event.preventDefault();
+        setSent(true);
+      }}
       className="mt-7 flex flex-col gap-3"
     >
       <input type="hidden" name="role" value={role} />

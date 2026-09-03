@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { en } from "@/content/en";
-import { posts } from "@/content/pages/posts";
+import { blogPage, posts } from "@/content/pages/posts";
 import { locales } from "@/lib/i18n";
+import Banner, { BackLink } from "@/components/layout/Banner";
+import Button from "@/components/ui/Button";
+import ShareButtons from "@/components/ui/ShareButtons";
 import ParallaxFigure from "@/components/motion/ParallaxFigure";
 import SplitHeading from "@/components/motion/SplitHeading";
-import Figure from "@/components/ui/Figure";
-import CtaBand from "@/components/sections/CtaBand";
 import { Reveal, RevealGroup } from "@/components/motion/Reveal";
-import { TextLink } from "@/components/ui/Button";
+import PostCard from "@/components/sections/PostCard";
+import CtaBand from "@/components/sections/CtaBand";
 
 type Params = { locale: string; slug: string };
 
@@ -30,92 +30,96 @@ export async function generateMetadata({
   return { title: post.title, description: post.excerpt };
 }
 
+/** Article page (Figma 121:4285). */
 export default async function PostPage({ params }: { params: Promise<Params> }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const post = posts.find((p) => p.slug === slug);
   if (!post) notFound();
 
-  const more = en.articles.items.filter((item) => !item.href.endsWith(slug)).slice(0, 3);
+  const byline = `By ${post.author} - ${post.role}`;
+  const more = posts.filter((p) => p.slug !== slug).slice(0, 4);
 
   return (
     <>
-      {/* ------------------------------------------------------- title block */}
-      <section className="bg-navy pt-[85px]">
-        <div className="shell py-16 lg:py-[90px]">
-          <Reveal as="p" kind="fade" className="text-body-sm text-blue-70">
-            {post.date}
+      {/* -------------------------------------------------------- banner */}
+      <Banner variant="gradient" className="lg:pb-[140px]">
+        <div className="shell flex justify-center pt-[150px] pb-16 lg:pt-[160px] lg:pb-[100px]">
+          <div className="flex w-full max-w-[892px] flex-col gap-2">
+            <BackLink href={`/${locale}/blog`}>{blogPage.back}</BackLink>
+            <SplitHeading as="h1" className="text-h4 lg:text-h3">
+              {post.title}
+            </SplitHeading>
+            <Reveal kind="fade" className="flex flex-wrap items-center gap-2 text-body-xs">
+              <span>{post.date}</span>
+              <span aria-hidden className="size-1.5 rounded-full bg-white" />
+              <span>{byline}</span>
+            </Reveal>
+          </div>
+        </div>
+      </Banner>
+
+      {/* ---------------------------------------------------------- body */}
+      <article className="bg-white pb-20 lg:pb-[80px]">
+        <div className="shell flex flex-col items-center gap-6">
+          {/* Rides up over the banner by the design's 140px */}
+          <Reveal kind="clip" className="w-full max-w-[950px] lg:-mt-[140px]">
+            <ParallaxFigure
+              src={post.image}
+              alt={post.title}
+              strength={12}
+              sizes="(max-width: 1024px) 100vw, 950px"
+              className="aspect-[950/446] w-full"
+            />
           </Reveal>
-          <SplitHeading
-            as="h1"
-            className="mt-4 max-w-[980px] text-[clamp(2rem,4.2vw,3.5rem)] leading-[1.15] text-white"
-          >
-            {post.title}
-          </SplitHeading>
-          <Reveal as="p" className="mt-6 text-body text-text-light">
-            By {post.author} — {post.role}
+
+          <RevealGroup stagger={0.06} className="flex w-full max-w-[735px] flex-col gap-6">
+            {post.body.map((block) => (
+              <Reveal key={block.heading} className="flex flex-col gap-2">
+                <h2 className="text-h6 font-semibold text-text-dark capitalize">{block.heading}</h2>
+                <p className="text-body text-text-muted">{block.text}</p>
+              </Reveal>
+            ))}
+          </RevealGroup>
+
+          <Reveal kind="line" className="h-px w-full max-w-[757px] bg-grey-3" />
+          <Reveal kind="fade" className="flex w-full max-w-[735px] justify-end">
+            <ShareButtons title={post.title} />
           </Reveal>
         </div>
-      </section>
+      </article>
 
-      {/* -------------------------------------------------------- lead image */}
-      <Reveal kind="clip" className="shell -mt-10 lg:-mt-[60px]">
-        <ParallaxFigure
-          src={post.image}
-          alt={post.title}
-          strength={14}
-          sizes="(max-width: 1512px) 100vw, 1392px"
-          className="aspect-[1392/620] w-full"
-        />
-      </Reveal>
+      {/* ------------------------------------------------------ read also */}
+      <section className="bg-blue-10 py-20 lg:py-[90px]">
+        <div className="shell flex flex-col gap-8">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <SplitHeading as="h2" className="text-h4 text-ink lg:text-h3">
+              {blogPage.readAlso}
+            </SplitHeading>
+            <Reveal kind="fade">
+              <Button href={`/${locale}/blog`} variant="primary" size="md">
+                {blogPage.allCta}
+              </Button>
+            </Reveal>
+          </div>
 
-      {/* ------------------------------------------------------------ body */}
-      <article className="shell py-16 lg:py-[80px]">
-        <div className="mx-auto max-w-[780px]">
-          <Reveal
-            as="p"
-            className="text-[clamp(1.15rem,1.8vw,1.5rem)] leading-[1.55] font-medium text-text-dark"
-          >
-            {post.excerpt}
-          </Reveal>
-
-          <RevealGroup stagger={0.06} className="mt-10 flex flex-col gap-8">
-            {post.body.map((block, i) => (
-              <Reveal key={i}>
-                {block.heading && (
-                  <h2 className="mb-3 text-h5 text-ink">{block.heading}</h2>
-                )}
-                <p className="text-body leading-[1.8] text-ink-soft">{block.text}</p>
+          <RevealGroup stagger={0.1} className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {more.map((item, index) => (
+              <Reveal key={item.slug} kind="clip">
+                <PostCard
+                  post={{
+                    href: `/${locale}/blog/${item.slug}`,
+                    image: item.image,
+                    title: item.title,
+                    date: item.date,
+                    author: `By ${item.author} - ${item.role}`,
+                  }}
+                  tall={index % 2 === 1}
+                  cta={blogPage.readMore}
+                />
               </Reveal>
             ))}
           </RevealGroup>
         </div>
-      </article>
-
-      {/* ------------------------------------------------------ more posts */}
-      <section className="shell pb-20 lg:pb-[80px]">
-        <SplitHeading as="h2" className="text-h4 text-ink lg:text-h3">
-          More articles
-        </SplitHeading>
-
-        <RevealGroup stagger={0.1} className="mt-10 grid gap-6 sm:grid-cols-3">
-          {more.map((item) => (
-            <Reveal key={item.href} kind="clip">
-              <Link href={item.href} className="group block">
-                <Figure
-                  src={item.image}
-                  alt={item.title}
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  className="aspect-[440/300] w-full"
-                />
-                <p className="mt-4 text-body-xs text-ink-soft">{item.date}</p>
-                <h3 className="mt-2 text-h6 leading-[1.3] text-ink transition-colors duration-300 group-hover:text-blue">
-                  {item.title}
-                </h3>
-                <TextLink className="mt-4">Read more</TextLink>
-              </Link>
-            </Reveal>
-          ))}
-        </RevealGroup>
       </section>
 
       <CtaBand />

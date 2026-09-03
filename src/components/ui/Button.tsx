@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ArrowUpRight } from "./Icons";
+import { ArrowRight, ArrowUpRight, DownloadIcon } from "./Icons";
 
 /**
  * The Asadtech CTA, matching the Figma button sheet (node 14:76).
@@ -18,7 +18,7 @@ import { ArrowRight, ArrowUpRight } from "./Icons";
 
 type Variant = "primary" | "white-border";
 type Size = "md" | "lg";
-type Icon = "up-right" | "right" | "none";
+type Icon = "up-right" | "right" | "download" | "none";
 
 const sizing: Record<
   Size,
@@ -76,14 +76,16 @@ export default function Button({
 }: ButtonProps) {
   const s = sizing[size];
   const c = skin[variant];
-  const Glyph = icon === "right" ? ArrowRight : ArrowUpRight;
+  const Glyph =
+    icon === "right" ? ArrowRight : icon === "download" ? DownloadIcon : ArrowUpRight;
 
   const inner = (
     <>
       {/* -1px so the pill and disc meet rather than sitting apart */}
       <span
         className={cn(
-          "-me-px inline-flex items-center justify-center rounded-full whitespace-nowrap",
+          /* Fills the row on a phone, where nothing sits beside it */
+          "-me-px inline-flex flex-1 items-center justify-center rounded-full whitespace-nowrap sm:flex-initial",
           "transition-colors duration-300",
           c.pill,
           s.pill,
@@ -113,7 +115,8 @@ export default function Button({
               className={cn(
                 s.icon,
                 "transition-transform duration-400 ease-[cubic-bezier(0.16,1,0.3,1)]",
-                "group-hover:rotate-45",
+                /* A download arrow dips into its tray instead of straightening */
+                icon === "download" ? "group-hover:translate-y-0.5" : "group-hover:rotate-45",
               )}
             />
           </span>
@@ -122,7 +125,7 @@ export default function Button({
     </>
   );
 
-  const shared = cn("group inline-flex items-center align-middle", className);
+  const shared = cn("group inline-flex w-full items-center align-middle sm:w-auto", className);
 
   if (href) {
     return (

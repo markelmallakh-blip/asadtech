@@ -4,7 +4,12 @@ import { contact } from "@/content/pages/contact";
 import ContactForm from "@/components/sections/ContactForm";
 import ParallaxFigure from "@/components/motion/ParallaxFigure";
 import { Reveal } from "@/components/motion/Reveal";
-import { MailIcon, PhoneIcon, PinIcon } from "@/components/ui/Icons";
+import {
+  BuildingIcon,
+  ClockIcon,
+  MailOpenIcon,
+  PhoneRingIcon,
+} from "@/components/ui/Icons";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -12,11 +17,12 @@ export const metadata: Metadata = {
     "Talk to Asad Advanced Technologies about cooling units, cold rooms, tail lifters and spider cranes across Saudi Arabia.",
 };
 
+/** Contact page (Figma 127:7540). */
 export default function ContactPage() {
   return (
     <>
       {/* ------------------------------------------------- form over image */}
-      <section className="relative isolate bg-navy pt-[85px]">
+      <section className="relative isolate overflow-hidden bg-navy">
         <ParallaxFigure
           src={contact.image.src}
           alt={contact.image.alt}
@@ -26,64 +32,58 @@ export default function ContactPage() {
           sizes="100vw"
           className="absolute inset-0 -z-10"
         />
-        <div aria-hidden className="absolute inset-0 -z-10 bg-navy/35" />
 
-        <div className="shell relative py-16 lg:py-[60px]">
-          <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
-            <Reveal kind="fade-up" className="w-full lg:w-auto">
-              <ContactForm />
-            </Reveal>
+        {/* 32px inset from the photograph, as the design has it */}
+        <div className="flex flex-col gap-4 px-4 pt-[150px] pb-8 lg:flex-row lg:items-end lg:px-8 lg:pt-[180px] lg:pb-[60px]">
+          <Reveal kind="fade-up" className="w-full lg:w-auto lg:shrink-0">
+            <ContactForm />
+          </Reveal>
 
-            {/* the two contact tiles */}
-            <Reveal
-              kind="fade-up"
-              delay={0.15}
-              className="grid w-full grid-cols-1 gap-0 sm:grid-cols-2 lg:w-[560px]"
+          <Reveal
+            kind="fade-up"
+            delay={0.15}
+            className="flex w-full flex-col gap-4 sm:flex-row lg:flex-1 lg:items-end"
+          >
+            <Link
+              href={contact.phone.href}
+              className="flex h-[200px] flex-1 flex-col justify-between rounded-xl bg-blue px-8 py-6 text-white transition-colors duration-300 hover:bg-navy lg:h-[269px]"
             >
-              <Link
-                href={contact.phone.href}
-                className="flex h-[132px] flex-col justify-between bg-blue p-6 transition-colors duration-300 hover:bg-blue-80"
-              >
-                <PhoneIcon className="size-9 text-white" />
-                <span className="text-body text-white">{contact.phone.label}</span>
-              </Link>
+              <PhoneRingIcon className="size-[101px]" />
+              <span className="text-body-lg font-medium">{contact.phone.label}</span>
+            </Link>
 
-              <Link
-                href={contact.email.href}
-                className="flex h-[132px] flex-col justify-between bg-blue-10 p-6 transition-colors duration-300 hover:bg-blue-20"
-              >
-                <MailIcon className="size-9 text-blue" />
-                <span className="text-body text-blue">{contact.email.label}</span>
-              </Link>
-            </Reveal>
-          </div>
+            <Link
+              href={contact.email.href}
+              className="flex h-[200px] flex-1 flex-col justify-between rounded-xl bg-blue-20 px-8 py-6 text-blue transition-colors duration-300 hover:bg-white lg:h-[225px]"
+            >
+              <MailOpenIcon className="size-[101px]" />
+              <span className="text-body-lg font-medium">{contact.email.label}</span>
+            </Link>
+          </Reveal>
         </div>
       </section>
 
       {/* ----------------------------------------------- address and hours */}
-      <section className="shell py-12 lg:py-[60px]">
+      <section className="bg-white py-14 lg:py-[60px]">
         <Reveal
           kind="fade-up"
-          className="grid gap-10 bg-blue p-10 lg:grid-cols-2 lg:gap-0 lg:p-[40px]"
+          className="shell"
         >
-          <div className="lg:pe-12">
-            <PinIcon className="size-10 text-white/80" />
-            <p className="mt-6 max-w-[440px] text-body leading-[1.6] text-white">
-              {contact.address}
-            </p>
-          </div>
+          <div className="flex flex-col gap-8 rounded-xl bg-blue p-8 text-white lg:flex-row lg:justify-between">
+            <div className="flex flex-col gap-6 lg:w-[531px]">
+              <BuildingIcon className="size-[101px]" />
+              <p className="text-body-lg font-medium">{contact.address}</p>
+            </div>
 
-          <div className="lg:border-s lg:border-white/25 lg:ps-12">
-            <svg viewBox="0 0 24 24" fill="none" aria-hidden className="size-10 text-white/80">
-              <circle cx="12" cy="12" r="9.25" stroke="currentColor" strokeWidth="1.6" />
-              <path d="M12 7v5.2l3.2 2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-            </svg>
-            <div className="mt-6 flex flex-col gap-1.5">
-              {contact.hours.map((line) => (
-                <p key={line} className="text-body text-white">
-                  {line}
-                </p>
-              ))}
+            <span aria-hidden className="h-px w-full bg-blue-60 lg:h-auto lg:w-px lg:self-stretch" />
+
+            <div className="flex flex-col gap-6 lg:w-[531px]">
+              <ClockIcon className="size-[101px]" />
+              <div className="flex flex-col text-body-lg font-medium">
+                {contact.hours.map((line) => (
+                  <p key={line}>{line}</p>
+                ))}
+              </div>
             </div>
           </div>
         </Reveal>
