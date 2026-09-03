@@ -3,7 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { services } from "@/content/pages/services";
 import { locales } from "@/lib/i18n";
-import PageHero from "@/components/layout/PageHero";
+import ServiceHero from "@/components/sections/ServiceHero";
+import RotatingBadge from "@/components/motion/RotatingBadge";
 import ParallaxFigure from "@/components/motion/ParallaxFigure";
 import SplitHeading from "@/components/motion/SplitHeading";
 import RequestInterest from "@/components/sections/RequestInterest";
@@ -31,7 +32,7 @@ export async function generateMetadata({
 }
 
 export default async function ServicePage({ params }: { params: Promise<Params> }) {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const service = services.find((s) => s.slug === slug);
   if (!service) notFound();
 
@@ -39,11 +40,14 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
 
   return (
     <>
-      <PageHero
-        tagline={service.group}
-        lines={[service.title]}
-        image={service.image}
-        alt={service.title}
+      <ServiceHero
+        eyebrow={service.title}
+        headline={service.headline ?? service.title}
+        body={service.intro}
+        video={service.video}
+        poster={service.image}
+        cta="REQUEST INTEREST"
+        href={`/${locale}/contact`}
       />
 
       {/* -------------------------------------------------------- overview */}
@@ -59,6 +63,33 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
             {service.overview}
           </SplitHeading>
         </div>
+
+        {service.overviewImages && (
+          /* Two pictures with the Kingdom badge set between them, turning as
+             the section goes by. */
+          <div
+            data-badge-track
+            className="relative mt-12 grid gap-4 sm:grid-cols-2 lg:mt-16 lg:gap-8"
+          >
+            {service.overviewImages.map((src, i) => (
+              <Reveal key={src} kind="clip" delay={i * 0.1}>
+                <ParallaxFigure
+                  src={src}
+                  alt={`${service.title} ${i + 1}`}
+                  strength={14}
+                  sizes="(max-width: 640px) 100vw, 50vw"
+                  className="aspect-[680/460] w-full"
+                />
+              </Reveal>
+            ))}
+
+            <RotatingBadge
+              src="/images/single-service/KSA-badge.webp"
+              alt="Made in the Kingdom of Saudi Arabia"
+              className="pointer-events-none absolute top-1/2 left-1/2 hidden size-[180px] -translate-x-1/2 -translate-y-1/2 sm:block"
+            />
+          </div>
+        )}
       </section>
 
       {/* -------------------------------------------------------- features */}

@@ -1,4 +1,5 @@
 import ParallaxFigure from "@/components/motion/ParallaxFigure";
+import HeroZoomVideo from "@/components/motion/HeroZoomVideo";
 import Figure from "@/components/ui/Figure";
 import SplitHeading from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
@@ -15,15 +16,70 @@ export default function PageHero({
   tagline,
   lines,
   image,
+  video,
+  intro,
   alt,
   className,
 }: {
   tagline: string;
   lines: string[];
   image?: string;
+  /** When set, the banner is a video that opens out to fill the viewport. */
+  video?: string;
+  /** Supporting copy revealed once the video has opened. */
+  intro?: string;
   alt?: string;
   className?: string;
 }) {
+  const title = (
+    <div className="shell pointer-events-none absolute inset-x-0 bottom-0 z-10 pb-24 lg:pb-[120px]">
+      <Reveal as="p" kind="fade" className="text-body-lg text-white/70">
+        {tagline}
+      </Reveal>
+
+      <SplitHeading
+        as="h1"
+        className="mt-3 max-w-[820px] text-[clamp(2.25rem,5vw,4rem)] leading-[1.1] text-white"
+      >
+        {lines.map((line, i) => (
+          <span key={i} className="block">
+            {line}
+          </span>
+        ))}
+      </SplitHeading>
+
+      {intro ? (
+        /* Rule and copy arrive once the video has opened out; the zoom
+           timeline drives them through the data-hero-reveal hooks. The rule
+           draws itself across the banner, dividing the headline from the
+           supporting copy that settles underneath it. */
+        <>
+          <div
+            aria-hidden
+            data-hero-reveal-line
+            className="mt-8 h-px w-full bg-white/40"
+          />
+
+          <div data-hero-reveal className="mt-8 max-w-[460px] lg:ms-auto">
+            <p className="text-body-sm leading-[1.7] text-white/80">{intro}</p>
+          </div>
+        </>
+      ) : (
+        <Reveal kind="line" className="mt-8 h-px w-[28px] bg-white/60" />
+      )}
+    </div>
+  );
+
+  if (video) {
+    return (
+      <section className={cn("relative isolate bg-navy", className)}>
+        <HeroZoomVideo src={video} poster={image} intro={intro}>
+          {title}
+        </HeroZoomVideo>
+      </section>
+    );
+  }
+
   return (
     <section
       className={cn(

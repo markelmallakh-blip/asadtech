@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Poppins, Caveat } from "next/font/google";
+import { Poppins, Caveat, Mrs_Saint_Delafield } from "next/font/google";
 import SmoothScroll from "@/components/motion/SmoothScroll";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -18,6 +18,15 @@ const caveat = Caveat({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-caveat",
+  display: "swap",
+});
+
+/* Stands in for "Thesignature", the licensed face the Figma signature is set
+   in. Drop the real font in and point --font-signature at it to match. */
+const signature = Mrs_Saint_Delafield({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-signature-face",
   display: "swap",
 });
 
@@ -56,7 +65,7 @@ export default async function LocaleLayout({
     <html
       lang={locale}
       dir={localeDirection[locale]}
-      className={`${poppins.variable} ${caveat.variable}`}
+      className={`${poppins.variable} ${caveat.variable} ${signature.variable}`}
     >
       <body className="antialiased">
         <SmoothScroll>

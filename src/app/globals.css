@@ -39,6 +39,7 @@
   --font-display: var(--font-poppins), "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-poppins), "Poppins", ui-sans-serif, system-ui, sans-serif;
   --font-script: var(--font-caveat), "Caveat", cursive;
+  --font-signature: var(--font-signature-face), "Thesignature", cursive;
 
   --text-display: 10rem;   /* 160px — "Certified FOR Excellence" */
   --text-display--line-height: 1;
@@ -192,6 +193,42 @@ html.js-motion [data-animate="mask"] {
   transform: translateY(118%);
 }
 
+/* The About banner holds its rule and supporting copy back until the zoom
+   timeline has opened the video out. Only the pinned desktop timeline runs, so
+   the resting state is scoped to it — below 1024px both simply show. */
+html.js-motion [data-hero-reveal-line] {
+  transform-origin: left center;
+}
+
+@media (min-width: 1024px) {
+  html.js-motion [data-hero-reveal] {
+    opacity: 0;
+  }
+
+  html.js-motion [data-hero-reveal-line] {
+    transform: scaleX(0);
+  }
+
+  /* The chairman's signature is written as his portrait lands (see
+     StatementSignOff), so it starts clipped away rather than sitting there
+     already signed. */
+  html.js-motion [data-statement-signature] {
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
+/* The leadership threads are drawn on as their row scrolls past. pathLength
+   normalises every path to 1, so one offset hides all of them. */
+html.js-motion [data-team-thread] path {
+  stroke-dashoffset: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js-motion [data-team-thread] path {
+    stroke-dashoffset: 0;
+  }
+}
+
 /* Wrapper that clips a masked line so it slides up from nothing */
 @layer components {
   .mask-line {
@@ -233,7 +270,10 @@ html.js-motion [data-split] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.js-motion [data-animate] {
+  html.js-motion [data-animate],
+  html.js-motion [data-hero-reveal],
+  html.js-motion [data-hero-reveal-line],
+  html.js-motion [data-statement-signature] {
     opacity: 1 !important;
     clip-path: none !important;
     transform: none !important;
@@ -301,6 +341,41 @@ html.js-motion [data-split] {
 }
 
 /* ==========================================================================
+   Rotating words
+   --------------------------------------------------------------------------
+   One quote swapping for the next: each word rises out of its own mask on a
+   stagger, so the text turns over rather than cross-fading.
+   ========================================================================== */
+
+@keyframes word-rise {
+  from { transform: translateY(110%); }
+  to   { transform: translateY(0); }
+}
+
+@layer components {
+  .word-mask {
+    display: inline-block;
+    overflow: hidden;
+    /* Leaves the descenders room so the mask does not shave them off */
+    padding-bottom: 0.14em;
+    margin-bottom: -0.14em;
+    vertical-align: bottom;
+  }
+
+  .word-mask > span {
+    display: inline-block;
+    animation: word-rise 700ms var(--ease-out-expo) both;
+    animation-delay: var(--word-delay, 0ms);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word-mask > span {
+    animation: none;
+  }
+}
+
+/* ==========================================================================
    Scroll-morph landing slot
    --------------------------------------------------------------------------
    The destination renders the same image as a no-JS / reduced-motion
@@ -339,25 +414,34 @@ html.morph-active .morph-media {
 .header-veil {
   position: absolute;
   inset: 0;
+  /* Runs past the bar so the fade finishes below it — the header never ends
+     on a hard edge, whatever it happens to be sitting over. */
+  bottom: -36px;
   pointer-events: none;
-  backdrop-filter: blur(14px) saturate(125%);
-  -webkit-backdrop-filter: blur(14px) saturate(125%);
+  /* The blur itself is a utility on the element: a bare backdrop-filter here
+     gets dropped from the compiled rule, so it never actually applied. */
+  /* Black rather than navy, and deep enough at the top that white type holds
+     up over a bright sky or a white wall as readily as over the dark hero. */
   background-image: linear-gradient(
     to bottom,
-    rgb(13 14 27 / 0.34) 0%,
-    rgb(13 14 27 / 0.16) 46%,
-    rgb(13 14 27 / 0) 100%
+    rgb(0 0 0 / 0.72) 0%,
+    rgb(0 0 0 / 0.52) 40%,
+    rgb(0 0 0 / 0.22) 72%,
+    rgb(0 0 0 / 0) 100%
   );
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 42%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%);
 }
 
+/* Without backdrop-filter the tint is all the separation there is, so it
+   carries a little more weight. */
 @supports not (backdrop-filter: blur(1px)) {
   .header-veil {
     background-image: linear-gradient(
       to bottom,
-      rgb(13 14 27 / 0.62) 0%,
-      rgb(13 14 27 / 0) 100%
+      rgb(0 0 0 / 0.82) 0%,
+      rgb(0 0 0 / 0.58) 46%,
+      rgb(0 0 0 / 0) 100%
     );
   }
 }

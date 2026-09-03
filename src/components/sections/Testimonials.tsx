@@ -2,11 +2,42 @@
 
 import { useState } from "react";
 import { en } from "@/content/en";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight, Quote } from "@/components/ui/Icons";
 import SplitHeading from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
+
+type Item = (typeof en.testimonials.items)[number];
+
+/** One quote turning over into the next, word by word out of its own mask. */
+function RotatingWords({ text }: { text: string }) {
+  return text.split(" ").map((word, i) => (
+    <span key={`${i}-${word}`}>
+      <span className="word-mask" style={{ "--word-delay": `${i * 18}ms` } as React.CSSProperties}>
+        <span>{word}</span>
+      </span>
+      {" "}
+    </span>
+  ));
+}
+
+function QuoteBlock({ item, rotating }: { item: Item; rotating?: boolean }) {
+  return (
+    <div>
+      <blockquote className="flex gap-6">
+        <Quote className="mt-2 hidden h-[34px] w-[43px] shrink-0 text-ink sm:block" />
+        <p className="text-[clamp(1.25rem,2.2vw,2rem)] leading-[1.4] text-ink">
+          {rotating ? <RotatingWords text={item.quote} /> : item.quote}
+        </p>
+      </blockquote>
+
+      <footer className="mt-10 ps-0 sm:ps-[75px]">
+        <p className="text-h6 text-ink">{item.name}</p>
+        <p className="mt-1 text-body-sm text-ink-soft">{item.company}</p>
+      </footer>
+    </div>
+  );
+}
 
 export default function Testimonials() {
   const { heading, items } = en.testimonials;
@@ -66,42 +97,25 @@ export default function Testimonials() {
             />
           </div>
 
-          <div
-            key={index}
-            className="animate-[fade-slide_600ms_cubic-bezier(0.16,1,0.3,1)_both]"
-          >
-            <blockquote className="flex gap-6">
-              <Quote className="mt-2 hidden h-[34px] w-[43px] shrink-0 text-ink sm:block" />
-              <p className="text-[clamp(1.25rem,2.2vw,2rem)] leading-[1.4] text-ink">
-                {items[index].quote}
-              </p>
-            </blockquote>
-
-            <footer className="mt-10 ps-0 sm:ps-[75px]">
-              <p className="text-h6 text-ink">{items[index].name}</p>
-              <p className="mt-1 text-body-sm text-ink-soft">
-                {items[index].company}
-              </p>
-            </footer>
+          {/* Every quote is laid into the same grid cell — invisible except the
+              live one — so the block is always as tall as the longest of them
+              and switching never shifts the page underneath the reader. */}
+          <div className="grid *:col-start-1 *:row-start-1">
+            {items.map((item, i) => (
+              <div
+                key={item.company}
+                aria-hidden={i !== index}
+                className={i === index ? undefined : "invisible"}
+              >
+                {i === index ? (
+                  <QuoteBlock key={index} item={item} rotating />
+                ) : (
+                  <QuoteBlock item={item} />
+                )}
+              </div>
+            ))}
           </div>
         </Reveal>
-
-        {/* Progress dots */}
-        <div className={cn("mt-10 flex gap-2", items.length < 2 && "hidden")}>
-          {items.map((item, i) => (
-            <button
-              key={item.company}
-              type="button"
-              onClick={() => setIndex(i)}
-              aria-label={`Show testimonial from ${item.company}`}
-              aria-current={i === index}
-              className={cn(
-                "h-1 rounded-full transition-all duration-500",
-                i === index ? "w-10 bg-blue" : "w-4 bg-blue-20 hover:bg-blue-70",
-              )}
-            />
-          ))}
-        </div>
       </div>
     </section>
   );

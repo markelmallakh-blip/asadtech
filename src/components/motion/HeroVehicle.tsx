@@ -23,7 +23,10 @@ export default function HeroVehicle() {
           className="absolute inset-0"
           style={{
             opacity: i === index ? 1 : 0,
-            transition: "opacity 900ms cubic-bezier(0.16, 1, 0.3, 1)",
+            /* Rolls up into place a beat after the backdrop has settled. */
+            transform: i === index ? "translateY(0) scale(1)" : "translateY(6%) scale(0.94)",
+            transition:
+              "opacity 700ms cubic-bezier(0.16, 1, 0.3, 1) 260ms, transform 1100ms cubic-bezier(0.16, 1, 0.3, 1) 260ms",
           }}
         >
           <Image

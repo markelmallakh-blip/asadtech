@@ -26,6 +26,8 @@ export default function AboutPage() {
         tagline={about.hero.tagline}
         lines={[...about.hero.lines]}
         image={about.hero.image}
+        video={about.hero.video}
+        intro={about.hero.intro}
         alt={about.hero.alt}
       />
       <AboutIntro />

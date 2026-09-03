@@ -9,7 +9,7 @@ export default function CtaBand() {
   const { heading, body, points, button, href } = en.cta;
 
   return (
-    <section className="relative isolate overflow-hidden pb-0">
+    <section className="relative isolate overflow-hidden pb-8">
       <div className="parallax-frame absolute inset-0 -z-10">
         <div className="parallax-media" data-parallax="16">
           <Image
@@ -22,10 +22,12 @@ export default function CtaBand() {
         </div>
       </div>
 
-      <div className="shell pt-[220px] lg:pt-[290px]">
+      {/* 32px inset from the photograph on every side, rather than the wider
+          page gutter, so the card reads as sitting on the image. */}
+      <div className="px-8 pt-[220px] lg:pt-[290px]">
         <Reveal
           kind="fade-up"
-          className="rounded-t-2xl bg-white px-8 py-12 lg:px-[44px] lg:py-[56px]"
+          className="rounded-2xl bg-white px-8 py-12 lg:px-[44px] lg:py-[56px]"
         >
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16">
             <div>

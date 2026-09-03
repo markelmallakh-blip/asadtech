@@ -30,7 +30,9 @@ export default function HeroCard() {
         <div className="p-6">
           {/* Right padding keeps the title clear of the chevrons above it. */}
           <h2 className="pe-[80px] text-h5 text-ink">{card.title}</h2>
-          <p className="mt-2 line-clamp-3 text-body-sm leading-[1.4] text-ink-soft">
+          {/* Three lines are always reserved, so a shorter blurb on one slide
+              does not make the whole card jump as it cycles. */}
+          <p className="mt-2 line-clamp-3 h-[59px] text-body-sm leading-[1.4] text-ink-soft">
             {card.body}
           </p>
           <Button href={card.href} variant="primary" size="lg" className="mt-6">

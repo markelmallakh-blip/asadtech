@@ -5,7 +5,13 @@ export type Service = {
   group: string;
   intro: string;
   image: string;
+  /** Header footage, pinned behind the card (Figma 74:9493). */
+  video?: string;
+  /** Header headline. Falls back to the title when a service has none yet. */
+  headline?: string;
   overview: string;
+  /** The two overview pictures the KSA badge sits between. */
+  overviewImages?: readonly [string, string];
   features: readonly { title: string; body: string }[];
   specs: readonly { label: string; value: string }[];
   gallery: readonly string[];
@@ -19,6 +25,12 @@ export const services: readonly Service[] = [
     intro:
       "Transport refrigeration and cooling units for trucks, vans and cold chain logistics fleets in Saudi Arabia.",
     image: "/images/single-service/hero-background.webp",
+    video: "/images/single-service/asad-cooling-hero-2.mp4",
+    headline: "Reliable Cooling. Wherever the Road Takes You.",
+    overviewImages: [
+      "/images/single-service/overview-01.webp",
+      "/images/single-service/overview-02.webp",
+    ],
     overview:
       "Direct-drive and diesel-powered transport refrigeration specified around your route, your payload and the temperature band you have to hold. Every unit is sized against Kingdom ambient conditions rather than a European average, then installed and commissioned by our own engineers.",
     features: [

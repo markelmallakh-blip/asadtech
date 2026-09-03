@@ -36,8 +36,10 @@ export default function Header() {
       <div
         aria-hidden
         className={cn(
-          "header-veil transition-opacity duration-500",
-          scrolled ? "opacity-100" : "opacity-80",
+          "header-veil backdrop-blur-[16px] backdrop-saturate-125 transition-opacity duration-500",
+          /* Full strength even at the top: the bar has to stay legible over
+             whatever section happens to be behind it. */
+          scrolled ? "opacity-100" : "opacity-95",
         )}
       />
 

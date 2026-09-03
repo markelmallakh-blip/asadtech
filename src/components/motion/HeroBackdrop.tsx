@@ -21,7 +21,11 @@ export default function HeroBackdrop() {
               className="absolute inset-0"
               style={{
                 opacity: i === index ? 1 : 0,
-                transition: "opacity 900ms cubic-bezier(0.16, 1, 0.3, 1)",
+                /* Settles out of a slight push-in so the scene arrives rather
+                   than simply appearing. */
+                transform: i === index ? "scale(1)" : "scale(1.06)",
+                transition:
+                  "opacity 900ms cubic-bezier(0.16, 1, 0.3, 1), transform 1400ms cubic-bezier(0.16, 1, 0.3, 1)",
               }}
             >
               <Image
