@@ -32,3 +32,17 @@ const twMerge = extendTailwindMerge({
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+/**
+ * Prefixes a path from `public/` with the Pages basePath.
+ *
+ * next/image applies it through the custom loader, and the framework applies
+ * it to routes — but a raw `<video>` src or poster attribute gets neither, so
+ * on a project page those files 404 while every image beside them resolves.
+ */
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
+export function assetPath(src: string) {
+  if (!src || /^https?:\/\//.test(src)) return src;
+  return `${basePath}${src}`;
+}

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { assetPath, cn } from "@/lib/utils";
 
 /**
  * Full-bleed looping footage behind a section, with the poster as the frame
@@ -87,8 +87,8 @@ export default function BackgroundVideo({
       )}
       <video
         ref={ref}
-        src={src}
-        poster={poster}
+        src={assetPath(src)}
+        poster={poster && assetPath(poster)}
         muted
         /* The hand-scrubbed return leg replaces the native loop */
         loop={!pingPong}

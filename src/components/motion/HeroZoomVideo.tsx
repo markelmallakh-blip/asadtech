@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { assetPath } from "@/lib/utils";
 
 /**
  * Page banner whose video opens out to fill the viewport as you scroll.
@@ -123,8 +124,8 @@ export default function HeroZoomVideo({
         >
           <video
             ref={videoRef}
-            src={src}
-            poster={poster}
+            src={assetPath(src)}
+            poster={poster && assetPath(poster)}
             muted
             loop
             playsInline
