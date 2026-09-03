@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { services } from "@/content/pages/services";
 import { locales } from "@/lib/i18n";
 import ServiceHero from "@/components/sections/ServiceHero";
-import RotatingBadge from "@/components/motion/RotatingBadge";
 import ParallaxFigure from "@/components/motion/ParallaxFigure";
 import SplitHeading from "@/components/motion/SplitHeading";
 import RequestInterest from "@/components/sections/RequestInterest";
@@ -45,41 +44,12 @@ export default async function ServicePage({ params }: { params: Promise<Params> 
         headline={service.headline ?? service.title}
         body={service.intro}
         overview={service.overview}
+        overviewImages={service.overviewImages}
         video={service.video}
         poster={service.image}
         cta="REQUEST INTEREST"
         href={`/${locale}/contact`}
       />
-
-      {/* -------------------------------------------------------- overview */}
-      <section className="shell py-20 lg:py-[80px]">
-        {service.overviewImages && (
-          /* Two pictures with the Kingdom badge set between them, turning as
-             the section goes by. */
-          <div
-            data-badge-track
-            className="relative grid gap-4 sm:grid-cols-2 lg:gap-8"
-          >
-            {service.overviewImages.map((src, i) => (
-              <Reveal key={src} kind="clip" delay={i * 0.1}>
-                <ParallaxFigure
-                  src={src}
-                  alt={`${service.title} ${i + 1}`}
-                  strength={14}
-                  sizes="(max-width: 640px) 100vw, 50vw"
-                  className="aspect-[680/460] w-full"
-                />
-              </Reveal>
-            ))}
-
-            <RotatingBadge
-              src="/images/single-service/KSA-badge.webp"
-              alt="Made in the Kingdom of Saudi Arabia"
-              className="pointer-events-none absolute top-1/2 left-1/2 hidden size-[180px] -translate-x-1/2 -translate-y-1/2 sm:block"
-            />
-          </div>
-        )}
-      </section>
 
       {/* -------------------------------------------------------- features */}
       <section className="bg-blue-10 py-20 lg:py-[80px]">

@@ -5,30 +5,33 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import BackgroundVideo from "@/components/motion/BackgroundVideo";
 import Figure from "@/components/ui/Figure";
+import ParallaxFigure from "@/components/motion/ParallaxFigure";
+import RotatingBadge from "@/components/motion/RotatingBadge";
 import Button from "@/components/ui/Button";
 import SplitHeading from "@/components/motion/SplitHeading";
 import { Reveal } from "@/components/motion/Reveal";
 
-/** The card's closed width, from Figma 74:9493. */
-const CARD_WIDTH = 698;
+/** Card widths for the two states in Figma 71:9377. */
+const OPEN = 1262;
 
 /**
- * Single-service header (Figma 74:9493).
+ * Single-service header (Figma 71:9377, states "151" and "Variant2").
  *
- * The footage pins for a viewport with the white card sitting on its lower
- * right, high enough that the whole card — the CTA included — is readable
- * before anything has been scrolled. Scrolling then opens the card out across
- * the page, and the room that makes is what the overview copy moves into: a
- * closed panel widening into a spread, rather than a block that scrolls by.
+ * The footage sticks to the top while the white card is pulled up over its
+ * lower edge. Closed, the card is 698px and ends at the CTA. Arriving at it
+ * opens it out to 1262px and unfolds the rest from under the CTA — a rule,
+ * the overview, and the two pictures with the Kingdom badge across their seam
+ * — so the overview is revealed by the card rather than sitting in a section
+ * of its own beneath it.
  *
- * Below `lg` none of that applies — footage and card stack, overview beneath.
- * Pinning two viewports to widen a panel is a poor trade on a phone.
+ * Below `lg` it is a plain stack: footage, card, overview, all open.
  */
 export default function ServiceHero({
   eyebrow,
   headline,
   body,
   overview,
+  overviewImages,
   video,
   poster,
   cta,
@@ -37,23 +40,25 @@ export default function ServiceHero({
   eyebrow: string;
   headline: string;
   body: string;
-  /** Revealed by the second column as the card opens out. */
   overview: string;
+  overviewImages?: readonly [string, string];
   /** Optional — services without footage pin their still instead. */
   video?: string;
   poster: string;
   cta: string;
   href: string;
 }) {
-  const stageRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const mediaRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
-  const asideRef = useRef<HTMLDivElement>(null);
+  const foldRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const stage = stageRef.current;
+    const section = sectionRef.current;
+    const media = mediaRef.current;
     const card = cardRef.current;
-    const aside = asideRef.current;
-    if (!stage || !card || !aside) return;
+    const fold = foldRef.current;
+    if (!section || !media || !card || !fold) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -62,34 +67,37 @@ export default function ServiceHero({
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
         "(min-width: 1024px)": () => {
-          /* Opens to the page's content width, never past it. */
-          const openWidth = () => Math.min(stage.clientWidth - 120, 1392);
+          gsap.set(fold, { height: 0, opacity: 0 });
 
+          /* Opened once on arrival rather than scrubbed: the fold is taller
+             than a viewport, and scrubbing its height would resize the
+             document under the reader on every frame of the scroll. */
           gsap
             .timeline({
               scrollTrigger: {
-                trigger: stage,
-                start: "top top",
-                end: "bottom bottom",
-                scrub: 0.7,
+                /* Measured against the footage, not the card: the card is the
+                   thing being resized, so using it as its own trigger moves
+                   the start line out from under the timeline. */
+                trigger: media,
+                start: "bottom 60%",
+                toggleActions: "play none none reverse",
                 invalidateOnRefresh: true,
               },
             })
-            .fromTo(
-              card,
-              { width: CARD_WIDTH },
-              { width: openWidth, ease: "none", duration: 1 },
-            )
-            /* Arrives once the card is wide enough to hold it */
-            .fromTo(
-              aside,
-              { opacity: 0, x: 24 },
-              { opacity: 1, x: 0, ease: "power2.out", duration: 0.45 },
-              0.5,
+            .to(card, { width: OPEN, duration: 0.7, ease: "power3.inOut" })
+            .to(
+              fold,
+              {
+                height: "auto",
+                opacity: 1,
+                duration: 0.8,
+                ease: "power3.inOut",
+              },
+              0.25,
             );
         },
       });
-    }, stage);
+    }, section);
 
     return () => ctx.revert();
   }, []);
@@ -111,66 +119,94 @@ export default function ServiceHero({
     />
   );
 
-  const card = (
-    <div className="flex flex-col gap-8">
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-2.5">
-          <Reveal
-            as="p"
-            kind="fade"
-            className="text-h6 font-semibold text-blue capitalize"
-          >
-            {eyebrow}
-          </Reveal>
-          <SplitHeading
-            as="h1"
-            className="max-w-[559px] text-[clamp(2rem,3.4vw,2.625rem)] leading-[1.25] font-semibold text-text-dark"
-          >
-            {headline}
-          </SplitHeading>
-        </div>
-
-        <Reveal as="p" className="text-body leading-[1.5] text-text-dark">
-          {body}
-        </Reveal>
-      </div>
-
-      <Reveal kind="fade">
-        <Button href={href} variant="primary" size="lg">
-          {cta}
-        </Button>
-      </Reveal>
-    </div>
-  );
-
   return (
-    <section className="bg-blue-10">
-      {/* ------------------------------------------------------------ mobile */}
-      <div className="lg:hidden">
-        <div className="relative h-[420px] w-full overflow-hidden">{media}</div>
-        <div className="bg-white p-8">
-          {card}
-          <p className="mt-8 text-body leading-[1.7] text-ink-soft">{overview}</p>
-        </div>
+    <section
+      ref={sectionRef}
+      className="flex flex-col overflow-clip bg-blue-10 lg:items-end"
+    >
+      <div
+        ref={mediaRef}
+        /* Figma's 850 on a tall screen, but never so tall that the card's
+           CTA is pushed under the fold on a shorter one. */
+        className="relative h-[420px] w-full lg:sticky lg:top-0 lg:h-[min(850px,calc(100svh-320px))]"
+      >
+        {media}
       </div>
 
-      {/* ----------------------------------------------------------- desktop */}
-      <div ref={stageRef} className="relative hidden lg:block lg:h-[190vh]">
-        <div className="sticky top-0 h-[100svh] overflow-hidden">
-          {media}
-
-          {/* Clear of the fold, so the CTA reads before anything is scrolled */}
-          <div
-            ref={cardRef}
-            className="absolute end-[60px] bottom-[60px] flex overflow-hidden bg-white p-[60px]"
-            style={{ width: CARD_WIDTH }}
-          >
-            <div className="w-[578px] shrink-0">{card}</div>
-
-            <div ref={asideRef} className="ms-[60px] min-w-[380px] flex-1">
-              <p className="text-body leading-[1.7] text-ink-soft">{overview}</p>
+      <div
+        ref={cardRef}
+        className="flex w-full flex-col gap-8 bg-white p-8 lg:-mt-[180px] lg:w-[698px] lg:p-[60px]"
+      >
+        <div className="flex w-full max-w-[768px] flex-col gap-8">
+          <div className="flex flex-col gap-6">
+            <div className="flex flex-col gap-2.5">
+              <Reveal
+                as="p"
+                kind="fade"
+                className="text-h6 font-semibold text-blue capitalize"
+              >
+                {eyebrow}
+              </Reveal>
+              <SplitHeading
+                as="h1"
+                className="max-w-[559px] text-[clamp(2rem,3.4vw,2.625rem)] leading-[1.25] font-semibold text-text-dark"
+              >
+                {headline}
+              </SplitHeading>
             </div>
+
+            <Reveal as="p" className="text-body leading-[1.5] text-text-dark">
+              {body}
+            </Reveal>
           </div>
+
+          <Reveal kind="fade">
+            <Button href={href} variant="primary" size="lg">
+              {cta}
+            </Button>
+          </Reveal>
+        </div>
+
+        {/* Open on mobile and under reduced motion; the desktop timeline
+            collapses this and unfolds it on arrival. */}
+        <div
+          ref={foldRef}
+          className="flex w-full flex-col gap-8 overflow-hidden"
+        >
+          <div className="h-px w-full bg-blue-20" />
+
+          <div className="flex flex-col gap-4">
+            <p className="text-h5 font-semibold text-blue">Overview</p>
+            <p className="text-body-xl leading-[1.3] font-light text-navy">
+              {overview}
+            </p>
+          </div>
+
+          {overviewImages && (
+            <div data-badge-track className="relative flex w-full gap-4">
+              <ParallaxFigure
+                src={overviewImages[0]}
+                alt=""
+                strength={12}
+                sizes="761px"
+                className="h-[345px] w-[67.6%] shrink-0"
+              />
+              <ParallaxFigure
+                src={overviewImages[1]}
+                alt=""
+                strength={12}
+                sizes="360px"
+                className="h-[345px] flex-1"
+              />
+
+              {/* Straddles the seam between the two, as it does in Figma */}
+              <RotatingBadge
+                src="/images/single-service/KSA-badge.webp"
+                alt="Made in the Kingdom of Saudi Arabia"
+                className="pointer-events-none absolute top-[24.5px] left-[62.9%] h-[120px] w-[121px]"
+              />
+            </div>
+          )}
         </div>
       </div>
     </section>
