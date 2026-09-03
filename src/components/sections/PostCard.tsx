@@ -32,7 +32,7 @@ export default function PostCard({
         alt={post.title}
         strength={10}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 333px"
-        className={cn("w-full", tall ? "h-[382px]" : "h-[262px]")}
+        className={cn("w-full", tall ? "aspect-[333/382] lg:h-[382px]" : "aspect-[333/262] lg:h-[262px]")}
       />
       <span className="flex flex-col gap-2">
         <span className="text-body-xs text-text-muted">{post.date}</span>

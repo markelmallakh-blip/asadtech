@@ -220,28 +220,30 @@ export default function ServiceHero({
             </p>
           </div>
 
+          {/* Side by side from `sm`; stacked on a phone, where the narrow
+              second picture would otherwise be a sliver. */}
           {overviewImages && (
-            <div data-badge-track className="relative flex w-full gap-4">
+            <div data-badge-track className="relative flex w-full flex-col gap-4 sm:flex-row">
               <ParallaxFigure
                 src={overviewImages[0]}
                 alt=""
                 strength={12}
-                sizes="761px"
-                className="h-[345px] w-[67.6%] shrink-0"
+                sizes="(max-width: 640px) 100vw, 761px"
+                className="aspect-[761/345] w-full sm:h-[345px] sm:w-[67.6%] sm:shrink-0"
               />
               <ParallaxFigure
                 src={overviewImages[1]}
                 alt=""
                 strength={12}
-                sizes="360px"
-                className="h-[345px] flex-1"
+                sizes="(max-width: 640px) 100vw, 360px"
+                className="aspect-[360/345] w-full sm:h-[345px] sm:flex-1"
               />
 
               {/* Straddles the seam between the two, as it does in Figma */}
               <RotatingBadge
                 src="/images/single-service/KSA-badge.webp"
                 alt="Made in the Kingdom of Saudi Arabia"
-                className="pointer-events-none absolute top-[24.5px] left-[62.9%] h-[120px] w-[121px]"
+                className="pointer-events-none absolute top-4 end-4 h-[90px] w-[91px] sm:top-[24.5px] sm:end-auto sm:left-[62.9%] sm:h-[120px] sm:w-[121px]"
               />
             </div>
           )}

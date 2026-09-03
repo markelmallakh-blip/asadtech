@@ -55,7 +55,8 @@ export default function Hero() {
 
       {/* ------------------------------------------------------ foreground UI */}
       <div className="shell pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col gap-6 pb-8 lg:flex-row lg:items-end lg:justify-between lg:pb-12">
-        <RevealGroup className="pointer-events-auto flex items-center gap-4" stagger={0.06}>
+        {/* The trust strip is desktop only: on a phone the card takes the room */}
+        <RevealGroup className="pointer-events-auto hidden items-center gap-4 lg:flex" stagger={0.06}>
           <Reveal kind="fade" className="flex -space-x-3">
             {trust.logos.map((logo, i) => {
               const isLast = i === trust.logos.length - 1;

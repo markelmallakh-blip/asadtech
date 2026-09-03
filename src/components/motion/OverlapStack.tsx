@@ -21,9 +21,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
  *   [data-morph-source] slot the photo starts in
  *   [data-morph-target] slot the photo lands in
  *
- * Both slots render the photo themselves, which is what mobile, no-JS and
- * reduced-motion visitors see; those copies only step aside once the desktop
- * morph is actually running.
+ * Both slots render the photo themselves, which is what no-JS and
+ * reduced-motion visitors see; those copies only step aside once the morph
+ * is actually running. It runs at every width — the slots are laid out
+ * differently on a phone, but the photo simply travels between wherever
+ * they are.
  */
 export default function OverlapStack({
   children,
@@ -49,7 +51,7 @@ export default function OverlapStack({
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 1024px)": () => {
+        all: () => {
           const under = wrapper.querySelector<HTMLElement>("[data-stack-under]");
           const over = wrapper.querySelector<HTMLElement>("[data-stack-over]");
           const focus = wrapper.querySelector<HTMLElement>("[data-stack-focus]");

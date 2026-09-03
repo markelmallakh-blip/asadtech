@@ -511,3 +511,23 @@ html[lang="ar"] {
     animation: none;
   }
 }
+
+/* ==========================================================================
+   Phone type scale
+   The utilities read the tokens, so stepping the tokens down here shrinks
+   every heading at once. Sized so a line holds roughly the same words on a
+   375px screen as the desktop size does on the 1392px shell.
+   ========================================================================== */
+@media (width < 1024px) {
+  :root {
+    --text-display: 5rem;      /* 80px */
+    --text-h1: 2.5rem;         /* 40px */
+    --text-h2: 2.25rem;        /* 36px */
+    --text-h3: 2rem;           /* 32px */
+    --text-h4: 1.75rem;        /* 28px */
+    --text-h5: 1.5rem;         /* 24px */
+    --text-h6: 1.25rem;        /* 20px */
+    --text-body-xl: 1.375rem;  /* 22px */
+    --text-body-lg: 1.125rem;  /* 18px */
+  }
+}
