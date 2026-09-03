@@ -135,7 +135,10 @@ export default function ServiceHero({
 
       <div
         ref={cardRef}
-        className="flex w-full flex-col gap-8 bg-white p-8 lg:-mt-[180px] lg:w-[698px] lg:p-[60px]"
+        /* Positioned so it paints over the footage: the media panel is
+           sticky, and a positioned element covers a static sibling
+           however the two are ordered in the markup. */
+        className="relative z-10 flex w-full flex-col gap-8 bg-white p-8 lg:-mt-[180px] lg:w-[698px] lg:p-[60px]"
       >
         <div className="flex w-full max-w-[768px] flex-col gap-8">
           <div className="flex flex-col gap-6">
