@@ -32,7 +32,7 @@ export default function PageHero({
   className?: string;
 }) {
   const title = (
-    <div className="shell pointer-events-none absolute inset-x-0 bottom-0 z-10 pb-24 lg:pb-[120px]">
+    <div className="shell pointer-events-none absolute inset-x-0 bottom-0 z-10 pb-10 lg:pb-[120px]">
       <Reveal as="p" kind="fade" className="text-body-lg text-white/70">
         {tagline}
       </Reveal>

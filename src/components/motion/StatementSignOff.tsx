@@ -18,9 +18,9 @@ import Figure from "@/components/ui/Figure";
  * the picture comes to rest.
  *
  * Waypoints are offsets from that resting slot, measured in the 1280px design
- * stage, so the path scales with the stage it actually lands in. Below 1024px
- * the picture simply sits in its slot and the signature is simply there: a
- * drift measured against a desktop composition has nowhere to go on a phone.
+ * stage, so the path scales with the stage it actually lands in. A phone gets
+ * a shorter, smaller path of its own — the same idea at a size the narrow
+ * column can hold.
  */
 
 /** x/y in design px from the slot centre; scale is relative to the 102px slot. */
@@ -36,6 +36,15 @@ const PATH = [
 const LEGS = [1.2, 1, 0.8];
 
 const DESIGN_WIDTH = 1280;
+
+/** The phone path, in px of a 343px column, and the column it was drawn for. */
+const PHONE_PATH = [
+  { x: 110, y: -420, scale: 1.4, rotate: -5.32 },
+  { x: 80, y: -240, scale: 1.2, rotate: -3.55 },
+  { x: 40, y: -90, scale: 1.08, rotate: -1.77 },
+  { x: 0, y: 0, scale: 1, rotate: 0 },
+];
+const PHONE_WIDTH = 343;
 
 export default function StatementSignOff({
   src,
@@ -61,8 +70,7 @@ export default function StatementSignOff({
     gsap.registerPlugin(ScrollTrigger);
 
     const ctx = gsap.context(() => {
-      ScrollTrigger.matchMedia({
-        "(min-width: 1024px)": () => {
+      const run = (path: typeof PATH, designWidth: number) => {
           /* Read on every refresh so the path still lands in the slot after a
              resize or a reflow. The stage carries the section gutters, which
              are not part of the design container. */
@@ -72,13 +80,13 @@ export default function StatementSignOff({
               stage.clientWidth -
               parseFloat(style.paddingInlineStart) -
               parseFloat(style.paddingInlineEnd);
-            return Math.min(width, DESIGN_WIDTH) / DESIGN_WIDTH;
+            return Math.min(width, designWidth) / designWidth;
           };
           const at = (i: number) => ({
-            x: () => PATH[i].x * unit(),
-            y: () => PATH[i].y * unit(),
-            scale: PATH[i].scale,
-            rotate: PATH[i].rotate,
+            x: () => path[i].x * unit(),
+            y: () => path[i].y * unit(),
+            scale: path[i].scale,
+            rotate: path[i].rotate,
           });
 
           gsap.set(slot, { transformOrigin: "50% 50%" });
@@ -108,7 +116,11 @@ export default function StatementSignOff({
               { clipPath: "inset(0 0% 0 0)", ease: "none", duration: LEGS[2] },
               LEGS[0] + LEGS[1],
             );
-        },
+      };
+
+      ScrollTrigger.matchMedia({
+        "(min-width: 1024px)": () => run(PATH, DESIGN_WIDTH),
+        "(max-width: 1023px)": () => run(PHONE_PATH, PHONE_WIDTH),
       });
     }, section);
 

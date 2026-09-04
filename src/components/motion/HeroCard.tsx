@@ -27,23 +27,26 @@ export default function HeroCard() {
     >
       <div className="relative overflow-hidden rounded-sm bg-white shadow-[0_30px_70px_-30px_rgba(13,14,27,0.55)]">
         {/* ------------------------------------------------------- the card */}
-        <div className="p-6">
+        <div className="p-4 lg:p-6">
           {/* Right padding keeps the title clear of the chevrons above it. */}
-          <h2 className="pe-[80px] text-h5 text-ink">{card.title}</h2>
+          <h2 className="pe-[68px] text-h6 text-ink lg:pe-[80px] lg:text-h5">{card.title}</h2>
           {/* Three lines are always reserved, so a shorter blurb on one slide
               does not make the whole card jump as it cycles. Phones keep
               only the title, the arrows and the CTA. */}
           <p className="mt-2 line-clamp-3 h-[59px] text-body-sm leading-[1.4] text-ink-soft max-lg:hidden">
             {card.body}
           </p>
-          <Button href={card.href} variant="primary" size="lg" className="mt-6">
+          <Button href={card.href} variant="primary" size="md" className="mt-3 lg:hidden">
+            {cta}
+          </Button>
+          <Button href={card.href} variant="primary" size="lg" className="mt-6 hidden lg:inline-flex">
             {cta}
           </Button>
         </div>
 
         {/* Set into the card's top-right corner, divided off by an L-shaped
             rule down its leading edge and along its base. */}
-        <div className="absolute end-0 top-0 flex h-[56px] w-[72px] items-center justify-center border-b border-s border-grey-2 bg-white">
+        <div className="absolute end-0 top-0 flex h-[46px] w-[64px] items-center justify-center border-b border-s border-grey-2 bg-white lg:h-[56px] lg:w-[72px]">
           <button
             type="button"
             onClick={() => go(-1)}

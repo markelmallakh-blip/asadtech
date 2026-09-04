@@ -44,11 +44,16 @@ export default function GalleryGrid({
           </SplitHeading>
         </div>
 
-        <RevealGroup stagger={0.06} className="grid w-full gap-4 lg:grid-cols-3">
+        <RevealGroup stagger={0.06} className="grid w-full grid-cols-2 gap-2 lg:grid-cols-3 lg:gap-4">
           {columns.map((column, c) => (
-            <div key={c} className="flex flex-col gap-4">
+            <div key={c} className="contents lg:flex lg:flex-col lg:gap-4">
               {column.map((src, i) => (
-                <Reveal key={`${c}-${i}`} kind="clip">
+                <Reveal
+                  key={`${c}-${i}`}
+                  kind="clip"
+                  /* An odd seventh picture takes the whole last row on a phone */
+                  className={c === COLUMNS.length - 1 && i === column.length - 1 ? "max-lg:col-span-2" : undefined}
+                >
                   <ParallaxFigure
                     src={src}
                     alt={`${alt} ${c * 3 + i + 1}`}

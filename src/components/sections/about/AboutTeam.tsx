@@ -32,7 +32,7 @@ export default function AboutTeam() {
 
   return (
     <section className="shell py-20 lg:pt-[60px] lg:pb-[80px]">
-      <Reveal as="h2" kind="fade" className="text-h5 font-semibold text-text-dark">
+      <Reveal as="h2" kind="fade" className="text-center text-h5 font-semibold text-text-dark lg:text-start">
         {heading}
       </Reveal>
 
@@ -47,7 +47,7 @@ export default function AboutTeam() {
               key={rowIndex}
               data-team-row
               className={cn(
-                "flex items-start justify-between",
+                "flex items-start justify-center lg:justify-between",
                 threadOnRight && "flex-row-reverse",
               )}
             >
@@ -73,7 +73,7 @@ export default function AboutTeam() {
         kind="fade-up"
         /* The diagonal wash from Figma 69:8460. No top padding and clipped to
            the rounded box, so the pass reads as dropping in over the edge. */
-        className="mt-16 flex flex-col items-start justify-between gap-10 overflow-hidden rounded-[6px] bg-[linear-gradient(-21.72deg,#092526_0.914%,#494b98_97.708%)] p-10 lg:mt-[80px] lg:flex-row lg:items-center lg:ps-[60px]"
+        className="mt-16 flex flex-col items-start justify-between gap-8 overflow-hidden rounded-[6px] bg-[linear-gradient(-21.72deg,#092526_0.914%,#494b98_97.708%)] px-6 pt-0 pb-8 lg:mt-[80px] lg:flex-row lg:items-center lg:gap-10 lg:p-10 lg:ps-[60px]"
       >
         <div className="max-w-[470px]">
           <h3 className="text-[clamp(2rem,3.4vw,2.625rem)] leading-[1.25] font-semibold text-white">
@@ -96,7 +96,8 @@ export default function AboutTeam() {
           src={careers.image.src}
           alt={careers.image.alt}
           tilt={-7}
-          className="-mt-[72px] h-[300px] w-[258px] shrink-0 self-start"
+          /* First and hung from the top edge on a phone; beside the copy from lg */
+          className="order-first -mt-6 h-[220px] w-[190px] shrink-0 self-center lg:order-none lg:-mt-[72px] lg:h-[300px] lg:w-[258px] lg:self-start"
         />
       </Reveal>
     </section>

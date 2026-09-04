@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
  * alone would squash one and stretch the other.
  *
  * Because the tween is scrubbed, scrolling back up plays the trade in reverse
- * on its own. Below the `sm` breakpoint the cards stack and nothing swaps.
+ * on its own. On a phone the two sit side by side at a smaller size.
  */
 
 /** Column widths from Figma, as bare `fr` numbers. */
@@ -48,7 +48,7 @@ export default function TeamPair({
 
     const ctx = gsap.context(() => {
       ScrollTrigger.matchMedia({
-        "(min-width: 640px)": () => {
+        all: () => {
           const from = tallFirst
             ? { a: TALL_COL, b: SHORT_COL }
             : { a: SHORT_COL, b: TALL_COL };
@@ -86,8 +86,8 @@ export default function TeamPair({
     <div
       ref={pairRef}
       className={cn(
-        "grid gap-8 sm:grid-cols-[305fr_380fr] lg:w-[717px]",
-        tallFirst && "sm:grid-cols-[380fr_305fr]",
+        "grid w-full grid-cols-[305fr_380fr] gap-4 sm:gap-8 lg:w-[717px]",
+        tallFirst && "grid-cols-[380fr_305fr]",
         className,
       )}
     >
@@ -113,13 +113,13 @@ export default function TeamPair({
               />
             </div>
 
-            <div className="mt-6 flex gap-2">
-              <span className="mt-3 size-6 shrink-0 bg-blue" />
+            <div className="mt-4 flex gap-2 lg:mt-6">
+              <span className="mt-2 size-4 shrink-0 bg-blue lg:mt-3 lg:size-6" />
               <div className="max-w-[274px]">
-                <h3 className="text-h6 leading-[1.25] text-text-dark capitalize">
+                <h3 className="text-body font-semibold leading-[1.25] text-text-dark capitalize lg:text-h6">
                   {member.name}
                 </h3>
-                <p className="mt-1.5 text-body text-text-muted">
+                <p className="mt-1 text-body-sm text-text-muted lg:mt-1.5 lg:text-body">
                   {member.role}
                 </p>
               </div>

@@ -229,21 +229,21 @@ export default function ServiceHero({
                 alt=""
                 strength={12}
                 sizes="(max-width: 640px) 100vw, 761px"
-                className="aspect-[761/345] w-full sm:h-[345px] sm:w-[67.6%] sm:shrink-0"
+                className="aspect-[3/2] w-full sm:aspect-auto sm:h-[345px] sm:w-[67.6%] sm:shrink-0"
               />
               <ParallaxFigure
                 src={overviewImages[1]}
                 alt=""
                 strength={12}
                 sizes="(max-width: 640px) 100vw, 360px"
-                className="aspect-[360/345] w-full sm:h-[345px] sm:flex-1"
+                className="aspect-[3/2] w-full sm:aspect-auto sm:h-[345px] sm:flex-1"
               />
 
               {/* Straddles the seam between the two, as it does in Figma */}
               <RotatingBadge
                 src="/images/single-service/KSA-badge.webp"
                 alt="Made in the Kingdom of Saudi Arabia"
-                className="pointer-events-none absolute top-4 end-4 h-[90px] w-[91px] sm:top-[24.5px] sm:end-auto sm:left-[62.9%] sm:h-[120px] sm:w-[121px]"
+                className="pointer-events-none absolute top-1/2 left-1/2 h-[90px] w-[91px] -translate-x-1/2 -translate-y-1/2 sm:top-[24.5px] sm:left-[62.9%] sm:h-[120px] sm:w-[121px] sm:translate-x-0 sm:translate-y-0"
               />
             </div>
           )}

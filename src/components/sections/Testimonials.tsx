@@ -65,19 +65,19 @@ export default function Testimonials() {
               onClick={() => go(-1)}
               aria-label="Previous testimonial"
               disabled={items.length < 2}
-              className="flex size-14 items-center justify-center text-blue transition-colors duration-300 hover:bg-blue hover:text-white disabled:pointer-events-none disabled:opacity-35"
+              className="flex size-10 items-center justify-center text-blue lg:size-12 transition-colors duration-300 hover:bg-blue hover:text-white disabled:pointer-events-none disabled:opacity-35"
             >
-              <ChevronLeft className="size-7" />
+              <ChevronLeft className="size-5 lg:size-6" />
             </button>
-            <span className="h-9 w-px bg-blue-20" />
+            <span className="h-6 w-px bg-blue-20 lg:h-8" />
             <button
               type="button"
               onClick={() => go(1)}
               aria-label="Next testimonial"
               disabled={items.length < 2}
-              className="flex size-14 items-center justify-center text-blue transition-colors duration-300 hover:bg-blue hover:text-white disabled:pointer-events-none disabled:opacity-35"
+              className="flex size-10 items-center justify-center text-blue lg:size-12 transition-colors duration-300 hover:bg-blue hover:text-white disabled:pointer-events-none disabled:opacity-35"
             >
-              <ChevronRight className="size-7" />
+              <ChevronRight className="size-5 lg:size-6" />
             </button>
           </Reveal>
         </div>

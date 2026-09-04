@@ -13,8 +13,9 @@ import { assetPath } from "@/lib/utils";
  * full-bleed backdrop rather than cutting to it. The scrim deepens as it opens
  * so the title stays readable once the picture is behind it.
  *
- * Below 1024px it is a plain full-width video: pinning two viewports of scroll
- * to grow a picture is a poor trade on a phone.
+ * Below 1024px it is a portrait video in flow with the title over its foot:
+ * pinning two viewports of scroll to grow a picture is a poor trade on a
+ * phone.
  */
 export default function HeroZoomVideo({
   src,
@@ -114,13 +115,12 @@ export default function HeroZoomVideo({
 
   return (
     <div ref={sectionRef} className="relative lg:h-[210vh]">
-      <div className="relative overflow-hidden bg-navy lg:sticky lg:top-0 lg:h-[100svh]">
+      <div className="relative overflow-hidden bg-navy pt-[85px] lg:sticky lg:top-0 lg:h-[100svh] lg:pt-0">
         <div
           ref={frameRef}
-          className="absolute overflow-hidden"
           /* Matches where the still sits in the Figma banner; scrubbed to
              full-bleed as the section scrolls. */
-          style={{ top: "23.6%", right: "18.8%", bottom: "25%", left: "18.8%" }}
+          className="relative aspect-[3/4] w-full overflow-hidden lg:absolute lg:top-[23.6%] lg:right-[18.8%] lg:bottom-[25%] lg:left-[18.8%] lg:aspect-auto lg:w-auto"
         >
           <video
             ref={videoRef}
@@ -140,6 +140,11 @@ export default function HeroZoomVideo({
           aria-hidden
           className="pointer-events-none absolute inset-0 bg-black"
           style={{ opacity: 0.15 }}
+        />
+        {/* Keeps the title legible over the foot of the portrait video */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent lg:hidden"
         />
 
         {children}
